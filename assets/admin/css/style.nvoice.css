@@ -1,0 +1,86 @@
+*{
+    font-family: "Harmattan", sans-serif;
+    font-weight:400;
+    font-style: normal;
+    font-size:14px;
+    
+}
+#dairy {
+              
+          list-style-type: none;
+    
+}
+hr.new1 {
+  border-top: 1px solid #ccc;
+}
+/**/
+
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+/**/
+.thead-light{background-color: #ccc;}
+
+
+table {
+border-collapse: collapse;
+}
+table {
+width: 100%;
+}
+th {
+border: 1px solid #cccccc;
+border-style: solid;
+}
+/* */
+     
+::-webkit-scrollbar {
+width: 6px;
+height: 6px
+}
+
+::-webkit-scrollbar-track {
+background: #fff;
+border-radius:2px;
+box-shadow: inset 0 0 10px rgba(0, 0, 0, 0, 25);
+}
+
+::-webkit-scrollbar-thumb {
+background: #A52A2A;
+border-radius:5px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: #A52A2A;
+}
+
+thead{
+background-color:#ccc;
+color:#000;
+}
+table{
+border: 1px solid #ccc;
+border-style: solid;
+border-radius: 10px;
+}
