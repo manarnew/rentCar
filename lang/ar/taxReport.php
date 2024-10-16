@@ -1,0 +1,23 @@
+<?php
+return [
+    'reports' => 'التقارير',
+    'tax_reports' => 'تقارير الضرائب',
+    'from_date' => 'من تاريخ',
+    'to_date' => 'إلى تاريخ',
+    'car_expenses_tax' => 'ضريبة مصروفات سيارات',
+    'contracts_tax' => 'ضريبة عقود الإيجار',
+    'total_tax' => 'إجمالي الضريبة',
+    'no_data' => 'عفوا لاتوجد بيانات لعرضها !!',
+    'plate_number' => 'رقم اللوحة',
+    'car_model' => 'موديل السيارة',
+    'type' => 'النوع',
+    'date' => 'التاريخ',
+    'supplier' => 'المورد',
+    'tax' => 'الضريبة',
+    'reservation_number' => 'رقم الحجز',
+    'daily' => 'يومي',
+    'weekly' => 'أسبوعي',
+    'monthly' => 'شهري',
+    'customer_name' => 'اسم العميل',
+    'return_date' => 'تاريخ العودة',
+];

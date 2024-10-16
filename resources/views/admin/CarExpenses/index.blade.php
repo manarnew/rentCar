@@ -1,158 +1,137 @@
 @extends('layouts.admin')
+
 @section('title')
-ضبط السيارات
+    {{ __('CarExpenses.title') }}
 @endsection
+
 @section('contentheader')
-مصروفات السيارات 
+    {{ __('CarExpenses.content_header') }}
 @endsection
+
 @section('contentheaderlink')
-<a href="{{ route('CarExpenses.index') }}">مصروفات  السيارات </a>
+    <a href="{{ route('CarExpenses.index') }}">{{ __('CarExpenses.content_header_link') }}</a>
 @endsection
+
 @section('contentheaderactive')
-عرض
+    {{ __('CarExpenses.content_header_active') }}
 @endsection
+
 @section('content')
-<div class="card">
-   <div class="card-header">
-      <h3 class="card-title card_title_center">بيانات  مصروفات السيارات</h3>
-      <input type="hidden" id="token_search" value="{{csrf_token() }}">
-      <input type="hidden" id="ajax_search_url" value="{{route('admin.CarExpenses.ajax_search')}}">
-      @if(check_permission_sub_menue_actions(14)==true) 
-      <a href="{{ route('CarExpenses.create') }}" class="btn btn-sm btn-success" >اضافة جديد</a>
-      @endif
-   </div>
-   <!-- /.card-header -->
-   <div class="card-body">
-      <div class="row">
-         <div class="col-md-4">
-            <label> بحث برقم اللوحة </label>
-            <input style="margin-top: 6px !important;" type="text" id="search_by_text" placeholder="بحث برقم اللوحة" class="form-control"> <br>
-         </div>
-       
-         <div class="col-md-4">
-            <div class="form-group">
-               <label>   بحث بالنوع </label>
-               <select name="car_type_id_search" id="car_type_id_search" class="form-control ">
-                  <option value="all"> بحث بالكل</option>
-                  @if (@isset($carType) && !@empty($carType))
-                  @foreach ($carType as $info )
-                  <option value="{{ $info->id }}"> {{ $info->name }} </option>
-                  @endforeach
-                  @endif
-               </select>
-            </div>
-         </div>
-         <div class="clearfix"></div>
-         <div id="ajax_responce_serarchDiv" class="col-md-12">
-            @if (@isset($data) && !@empty($data))
-            @php
-            $i=1;   
-            @endphp
-            <table id="example2" class="table table-bordered table-hover">
-               <thead class="custom_thead">
-                  <th> رقم اللوحة </th>
-                  <th> لون السيارة </th>
-                  <th> اسم المورد </th>
-                  <th>  سعر المصروف</th>
-                  <th> الضريبة    </th>
-                  <th> اجمالي السعر مع الضريبة </th>
-                  <th>  ملاحظات </th>
-                  <th></th>
-               </thead>
-               <tbody>
-                  @foreach ($data as $info )
-                  <tr>
-                     <td>{{ $info->car->plate_number }}</td>
-                     <td>{{ $info->car->car_color }}</td>
-                     <td>{{$info->supplier}}</td>
-                     <td> {{$info->price}}  </td>
-                     <td> {{$info->tax}}  </td>
-                     <td> {{$info->total_price_tax}}  </td>
-                     <td> {{$info->note}}  </td>
-                     <td>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                              @if(check_permission_sub_menue_actions(16)==true) 
-                              <a type="button" class="btn are_you_shue btn-danger"
-                             href="{{ route('admin.CarExpenses.delete',$info->id) }}" style="color:#000;" title="حذف"><i class="fas fa-trash-alt"></i> 
-                            </a>
-                            @endif
-                            @if(check_permission_sub_menue_actions(15)==true) 
-                            <a class="btn btn-warning" href="{{ route('CarExpenses.edit',$info->id) }}" style="color:#000;" title="تعديل"><i class="fas fa-edit"></i>   
-                            </a>
-                            @endif
-                            @if(check_permission_sub_menue_actions(14)==true) 
-                            <a class="btn btn-success" href="{{ route('CarExpenses.show',$info->id) }}" style="color:#fff;" title="تفاصيل"><i class="fas fa-info-circle"></i>
-                            </a>
-                            @endif
-                            </div>
-                            
-                        <!--<a href="{{ route('CarExpenses.edit',$info->id) }}" class="btn btn-sm  btn-primary">تعديل</a>  -->
-                        <!--<a href="{{ route('CarExpenses.show',$info->id) }}" class="btn btn-sm   btn-info">تفاصيل</a> -->
-                        <!--<a href="{{ route('admin.CarExpenses.delete',$info->id) }}" class="btn are_you_shue btn-sm  btn-danger">حذف</a>   -->
-                     </td>
-                  </tr>
-                  @php
-                  $i++; 
-                  @endphp
-                  @endforeach
-               </tbody>
-            </table>
-            <br>
-            {{ $data->links() }}
-            @else
-            <div class="alert alert-danger">
-               عفوا لاتوجد بيانات لعرضها !!
-            </div>
-            @endif
-         </div>
-      </div>
-   </div>
-</div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title card_title_center">{{ __('CarExpenses.add_expense') }}</h3>
+            <input type="hidden" id="token_search" value="{{ csrf_token() }}">
+            <input type="hidden" id="ajax_search_url" value="{{ route('admin.CarExpenses.ajax_get_car') }}">
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <form action="{{ route('CarExpenses.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.plate_number') }}</label>
+                            <select id="car_type_id" name="car_id" class="form-control">
+                                <option value="">{{ __('CarExpenses.plate_number') }}</option>
+                                @foreach ($car_id as $item)
+                                    <option @if (old('car_id') == $item->id) selected="selected" @endif
+                                        value="{{ $item->plate_number }}">{{ $item->plate_number }}</option>
+                                @endforeach
+                            </select>
+                            @error('type_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" id="ajax_responce_serarchDiv">
+                            <label>{{ __('CarExpenses.car_type') }}</label>
+                            <input name="type_id" id="type_id" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.amount') }}</label>
+                            <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}"
+                                placeholder="{{ __('CarExpenses.amount') }}">
+                            @error('price')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.tax_value') }}</label>
+                            <input type="number" name="tax" id="tax" class="form-control" value="{{ old('tax') }}"
+                                placeholder="{{ __('CarExpenses.tax_value') }}">
+                            @error('tax')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.total_with_tax') }}</label>
+                            <input name="total_price_tax" id="total_price_tax" disabled="disabled" class="form-control" value="{{ old('total_price_tax', 0) }}">
+                            @error('total_price_tax')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.receipt_image') }}</label>
+                            <input type="file" class="form-control" name="image" id="image">
+                            @error('image')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.supplier') }}</label>
+                            <textarea name="supplier" id="supplier" class="form-control" cols="100" rows="5">{{ old('supplier') }}</textarea>
+                            @error('supplier')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ __('CarExpenses.notes') }}</label>
+                            <textarea name="note" class="form-control" id="note" cols="100" rows="5">{{ old('note') }}</textarea>
+                            @error('note')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group text-center">
+                            <button id="do_add_item_cardd" type="submit" class="btn btn-primary btn-sm">{{ __('CarExpenses.add') }}</button>
+                            <a href="{{ route('CarExpenses.index') }}" class="btn btn-sm btn-danger">{{ __('CarExpenses.cancel') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
+
 @section('script')
 <script>
-    $(document).on('input', '#search_by_text', function(e) {
-        make_search();
+    $(document).on('input', '#tax, #price', function(e) {
+        var tax = $("#tax").val();
+        var price = $("#price").val();
+        var total_price_tax = parseFloat(tax) + parseFloat(price);
+        $("#total_price_tax").val(isNaN(total_price_tax) ? 0 : total_price_tax);
     });
-    $(document).on('change', '#car_type_id_search', function(e) {
-        make_search();
-    });
-    $(document).on('change', '#car_status_id_search', function(e) {
-        make_search();
-    });
-      function make_search() {
-     var search_by_text = $("#search_by_text").val();
-        var search_car_type_id_search = $("#car_type_id_search").val();
-        var search_car_status_id_search = $("#car_status_id_search").val();
-        var token_search = $("#token_search").val();
-        var ajax_search_url = $("#ajax_search_url").val();
-        jQuery.ajax({
-            url: ajax_search_url,
-            type: 'post',
-            dataType: 'html',
-            cache: false,
-            data: {
-                search_by_text: search_by_text,
-                search_car_type_id_search: search_car_type_id_search,
-                search_car_status_id_search: search_car_status_id_search,
-                "_token": token_search,
-            },
-            success: function(data) {
-                $("#ajax_responce_serarchDiv").html(data);
-            },
-            error: function() {}
-        });
-      }
 
-      $(document).on('input', '#search_by_text', function(e) {
+    $(document).on('change', '#car_type_id', function(e) {
         make_search();
     });
-    $(document).on('change', '#car_type_id_search', function(e) {
-        make_search();
-    });
-      function make_search() {
-     var search_by_text = $("#search_by_text").val();
-        var search_car_type_id_search = $("#car_type_id_search").val();
+
+    function make_search() {
+        var search_car_type_id_search = $("#car_type_id").val();
         var token_search = $("#token_search").val();
         var ajax_search_url = $("#ajax_search_url").val();
         jQuery.ajax({
@@ -161,7 +140,6 @@
             dataType: 'html',
             cache: false,
             data: {
-                search_by_text: search_by_text,
                 search_car_type_id_search: search_car_type_id_search,
                 "_token": token_search,
             },
@@ -170,6 +148,6 @@
             },
             error: function() {}
         });
-      }
+    }
 </script>
 @endsection

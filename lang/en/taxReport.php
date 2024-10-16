@@ -1,0 +1,23 @@
+<?php
+return [
+    'reports' => 'Reports',
+    'tax_reports' => 'Tax Reports',
+    'from_date' => 'From Date',
+    'to_date' => 'To Date',
+    'car_expenses_tax' => 'Car Expenses Tax',
+    'contracts_tax' => 'Contracts Tax',
+    'total_tax' => 'Total Tax',
+    'no_data' => 'Sorry, no data to display!',
+    'plate_number' => 'Plate Number',
+    'car_model' => 'Car Model',
+    'type' => 'Type',
+    'date' => 'Date',
+    'supplier' => 'Supplier',
+    'tax' => 'Tax',
+    'reservation_number' => 'Reservation Number',
+    'daily' => 'Daily',
+    'weekly' => 'Weekly',
+    'monthly' => 'Monthly',
+    'customer_name' => 'Customer Name',
+    'return_date' => 'Return Date',
+];

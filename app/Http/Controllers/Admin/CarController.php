@@ -10,6 +10,7 @@ use App\Models\CarModals;
 use App\Models\CarStatus;
 use App\Models\carType;
 use App\Models\Contracts;
+use App\Models\Panel_settings;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -24,6 +25,19 @@ class CarController extends Controller
         $carType = carType::select()->orderby('id', 'DESC')->get();
         $data = Car::select()->orderby('id', 'DESC')->paginate(10);
         return view('admin.cars.index', ['data' => $data, 'carModals' => $carModals, 'carType' => $carType]);
+    }
+
+    public function license_end_date()
+    {
+        $data = Car::select()->whereDate('driver_license_end_date', '<=', now())->orderby('id', 'DESC')->paginate(10);
+        return view('admin.cars.license_end_date', ['data' => $data]);
+    }
+
+    public function mantince_notf()
+    {
+        $Panel_settings = Panel_settings::first();
+        $data = Car::select()->where('km_for_mantince', '>=', $Panel_settings->number_of_km_mantince)->orderby('id', 'DESC')->paginate(10);
+        return view('admin.cars.license_end_date', ['data' => $data]);
     }
 
     /**
@@ -48,66 +62,71 @@ class CarController extends Controller
             $id = auth()->user()->id;
             $checkExists = Car::where(['plate_number' => $request->plate_number])->first();
             if ($checkExists == null) {
-                $data['plate_number'] = $request->plate_number;
-                $data['car_color'] = $request->car_color;
-                $data['type_id'] = $request->type_id;
-                $data['insurance'] = $request->insurance;
-                $data['car_modals_id'] = $request->car_modals_id;
-                $data['car_status'] = 1;
-                $data['full_insurance'] = $request->full_insurance;
-                $data['third_party'] = $request->third_party;
-                $data['full_cover'] = $request->full_cover;
-                $data['UAE'] = $request->UAE;
-                $data['oman'] = $request->oman;
-                $data['daily_rent_price'] = $request->daily_rent_price;
-                $data['weekly_rent_price'] = $request->weekly_rent_price;
-                $data['monthly_rent_price'] = $request->monthly_rent_price;
-                $data['hourly_rent_price'] = $request->hourly_rent_price;
-                $data['km_rent_price'] = $request->km_rent_price;
-                $data['km_number'] = $request->km_number;
-                $data['com_code'] = $com_code;
-                $data['added_by'] = $id;
-                $data['created_at'] = date("Y-m-d H:i:s");
-                $data['date'] = date("Y-m-d");
+                $data = [
+                    'plate_number' => $request->plate_number,
+                    'car_color' => $request->car_color,
+                    'type_id' => $request->type_id,
+                    'insurance' => $request->insurance,
+                    'car_modals_id' => $request->car_modals_id,
+                    'car_status' => 1,
+                    'full_insurance' => $request->full_insurance,
+                    'third_party' => $request->third_party,
+                    'full_cover' => $request->full_cover,
+                    'UAE' => $request->UAE,
+                    'oman' => $request->oman,
+                    'daily_rent_price' => $request->daily_rent_price,
+                    'weekly_rent_price' => $request->weekly_rent_price,
+                    'monthly_rent_price' => $request->monthly_rent_price,
+                    'hourly_rent_price' => $request->hourly_rent_price,
+                    'km_rent_price' => $request->km_rent_price,
+                    'km_number' => $request->km_number,
+                    'km_for_mantince' => $request->km_for_mantince,
+                    'driver_license_end_date' => $request->driver_license_end_date,
+                    'com_code' => $com_code,
+                    'added_by' => $id,
+                    'created_at' => now(),
+                    'date' => now()->format('Y-m-d'),
+                ];
+
                 if ($request->image) {
-                    $data['image'] =  $this->uplaodImage($request->image);
+                    $data['image'] = $this->uploadImage($request->image);
                 }
-                
-                 if ($request->car_own_image_front) {
-                    $data['car_own_image_front'] =  $this->uplaodImage($request->car_own_image_front);
+                if ($request->car_own_image_front) {
+                    $data['car_own_image_front'] = $this->uploadImage($request->car_own_image_front);
                 }
                 if ($request->car_own_image_back) {
-                    $data['car_own_image_back'] =  $this->uplaodImage($request->car_own_image_back);
+                    $data['car_own_image_back'] = $this->uploadImage($request->car_own_image_back);
                 }
                 if ($request->card_run_image_back) {
-                    $data['card_run_image_back'] =  $this->uplaodImage($request->card_run_image_back);
+                    $data['card_run_image_back'] = $this->uploadImage($request->card_run_image_back);
                 }
                 if ($request->card_run_image_front) {
-                    $data['card_run_image_front'] =  $this->uplaodImage($request->card_run_image_front);
+                    $data['card_run_image_front'] = $this->uploadImage($request->card_run_image_front);
                 }
                 Car::create($data);
-                return redirect()->route('admin.car.index')->with(['success' => 'لقد تم اضافة البيانات بنجاح']);
+                return redirect()->route('admin.car.index')->with(['success' => __('controller.data_added')]);
             } else {
                 return redirect()->back()
-                    ->with(['error' => 'عفوا رقم اللوحة مسجل من قبل'])
+                    ->with(['error' => __('controller.plate_number_exists')])
                     ->withInput();
             }
         } catch (\Exception $ex) {
             return redirect()->back()
-                ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()])
+                ->with(['error' => __('controller.error_occurred') . $ex->getMessage()])
                 ->withInput();
         }
     }
-    public function uplaodImage($imageRequest)
+
+    public function uploadImage($imageRequest)
     {
         $image = $imageRequest;
         $extension = strtolower($image->extension());
         $filename = time() . rand(100, 999) . '.' . $extension;
-        $image->getClientOriginalName = $filename;
         $folder = 'assets/admin/uploads';
         $image->move($folder, $filename);
         return $filename;
     }
+
     /**
      * Display the specified resource.
      */
@@ -139,77 +158,80 @@ class CarController extends Controller
         try {
             $data = Car::select()->find($id);
             if (empty($data)) {
-                return redirect()->route('admin.car.index')->with(['error' => 'عفوا غير قادر علي الوصول الي البيانات المطلوبة !!']);
+                return redirect()->route('admin.car.index')->with(['error' => __('controller.data_not_found')]);
             }
-            $checkExists = Car::where(['plate_number' => $request->name])->where('id', '!=', $id)->first();
+            $checkExists = Car::where(['plate_number' => $request->plate_number])->where('id', '!=', $id)->first();
             if ($checkExists != null) {
                 return redirect()->back()
-                    ->with(['error' => 'عفوا رقم اللوحة مسجل من قبل'])
+                    ->with(['error' => __('controller.plate_number_exists')])
                     ->withInput();
             }
 
+            $data_to_update = [
+                'plate_number' => $request->plate_number,
+                'car_color' => $request->car_color,
+                'type_id' => $request->type_id,
+                'insurance' => $request->insurance,
+                'car_modals_id' => $request->car_modals_id,
+                'car_status' => 1,
+                'full_insurance' => $request->full_insurance,
+                'third_party' => $request->third_party,
+                'full_cover' => $request->full_cover,
+                'UAE' => $request->UAE,
+                'oman' => $request->oman,
+                'daily_rent_price' => $request->daily_rent_price,
+                'weekly_rent_price' => $request->weekly_rent_price,
+                'monthly_rent_price' => $request->monthly_rent_price,
+                'hourly_rent_price' => $request->hourly_rent_price,
+                'km_rent_price' => $request->km_rent_price,
+                'km_number' => $request->km_number,
+                'km_for_mantince' => $request->km_for_mantince,
+                'driver_license_end_date' => $request->driver_license_end_date,
+                'date' => now()->format('Y-m-d'),
+                'updated_at' => now(),
+                'updated_by' => auth()->user()->id,
+            ];
 
-            if ($checkExists == null) {
-                $data_to_update['plate_number'] = $request->plate_number;
-                $data_to_update['car_color'] = $request->car_color;
-                $data_to_update['type_id'] = $request->type_id; 
-                $data_to_update['insurance'] = $request->insurance;
-                $data_to_update['car_modals_id'] = $request->car_modals_id;
-                $data_to_update['car_status'] = 1;
-                $data_to_update['full_insurance'] = $request->full_insurance;
-                $data_to_update['third_party'] = $request->third_party;
-                $data_to_update['full_cover'] = $request->full_cover;
-                $data_to_update['UAE'] = $request->UAE;
-                $data_to_update['oman'] = $request->oman;
-                $data_to_update['daily_rent_price'] = $request->daily_rent_price;
-                $data_to_update['weekly_rent_price'] = $request->weekly_rent_price;
-                $data_to_update['monthly_rent_price'] = $request->monthly_rent_price;
-                $data_to_update['hourly_rent_price'] = $request->hourly_rent_price;
-                $data_to_update['km_rent_price'] = $request->km_rent_price;
-                $data_to_update['km_number'] = $request->km_number;
-                $data_to_update['date'] = date("Y-m-d");
-                if ($request->image) {
-                    $data_to_update['image'] =  $this->updateImage($request->image, $data['image']);
-                }
-                 if ($request->car_own_image_front) {
-                    $data_to_update['car_own_image_front'] =  $this->updateImage($request->car_own_image_front, $data['car_own_image_front']);
-                }
-                if ($request->car_own_image_back) {
-                    $data_to_update['car_own_image_back'] =  $this->updateImage($request->car_own_image_back, $data['car_own_image_back']);
-                }
-                if ($request->card_run_image_back) {
-                    $data_to_update['card_run_image_back'] =  $this->updateImage($request->card_run_image_back, $data['card_run_image_back']);
-                }
-                if ($request->card_run_image_front) {
-                    $data_to_update['card_run_image_front'] =  $this->updateImage($request->card_run_image_front, $data['card_run_image_front']);
-                }
-                $data_to_update['updated_at'] = date("Y-m-d H:i:s");
-                $ids = auth()->user()->id;
-                $data_to_update['updated_by'] = $ids;
-                Car::where(['id' => $id])->update($data_to_update);
-                return redirect()->route('admin.car.index')->with(['success' => 'لقد تم تحديث البيانات بنجاح']);
+            if ($request->image) {
+                $data_to_update['image'] = $this->updateImage($request->image, $data['image']);
             }
+            if ($request->car_own_image_front) {
+                $data_to_update['car_own_image_front'] = $this->updateImage($request->car_own_image_front, $data['car_own_image_front']);
+            }
+            if ($request->car_own_image_back) {
+                $data_to_update['car_own_image_back'] = $this->updateImage($request->car_own_image_back, $data['car_own_image_back']);
+            }
+            if ($request->card_run_image_back) {
+                $data_to_update['card_run_image_back'] = $this->updateImage($request->card_run_image_back, $data['card_run_image_back']);
+            }
+            if ($request->card_run_image_front) {
+                $data_to_update['card_run_image_front'] = $this->updateImage($request->card_run_image_front, $data['card_run_image_front']);
+            }
+
+            Car::where(['id' => $id])->update($data_to_update);
+            return redirect()->route('admin.car.index')->with(['success' => __('controller.data_updated')]);
         } catch (\Exception $ex) {
             return redirect()->back()
-                ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()])
+                ->with(['error' => __('controller.error_occurred') . $ex->getMessage()])
                 ->withInput();
         }
     }
+
     public function updateImage($requestImage, $dataImage)
     {
         $image = $requestImage;
         if ($image) {
             $extension = strtolower($image->extension());
             $filename = time() . rand(100, 999) . '.' . $extension;
-            $image->getClientOriginalName = $filename;
             $folder = 'assets/admin/uploads';
             $image->move($folder, $filename);
-            if (file_exists('assets/admin/uploads/' . $dataImage) and !empty($dataImage)) {
+            if (file_exists('assets/admin/uploads/' . $dataImage) && !empty($dataImage)) {
                 unlink('assets/admin/uploads/' . $dataImage);
             }
             return $filename;
         }
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -221,29 +243,23 @@ class CarController extends Controller
             if (!empty($item_row)) {
                 $checkExists = Contracts::where(['car_id' => $item_row->id])->first();
                 if ($checkExists) {
-                    return redirect()->back()
-                    ->with(['error' => '   عفوا لا يمكن حذف السيارة  لوجود عقود مرتبطة بهاء']);
+                    return redirect()->back()->with(['error' => __('controller.cannot_delete_linked_contracts')]);
                 }
                 $checkExists = CarExpenses::where(['car_id' => $item_row->id])->first();
                 if ($checkExists) {
-                    return redirect()->back()
-                    ->with(['error' => '   عفوا لا يمكن حذف السيارة  لوجود منصرفات مرتبطة بهاء']);
+                    return redirect()->back()->with(['error' => __('controller.cannot_delete_linked_expenses')]);
                 }
                 $flag = $item_row->delete();
                 if ($flag) {
-                    return redirect()->back()
-                        ->with(['success' => '   تم حذف البيانات بنجاح']);
+                    return redirect()->back()->with(['success' => __('controller.data_deleted')]);
                 } else {
-                    return redirect()->back()
-                        ->with(['error' => 'عفوا حدث خطأ ما']);
+                    return redirect()->back()->with(['error' => __('controller.error_occurred')]);
                 }
             } else {
-                return redirect()->back()
-                    ->with(['error' => 'عفوا غير قادر الي الوصول للبيانات المطلوبة']);
+                return redirect()->back()->with(['error' => __('controller.data_not_found')]);
             }
         } catch (\Exception $ex) {
-            return redirect()->back()
-                ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()]);
+            return redirect()->back()->with(['error' => __('controller.error_occurred') . $ex->getMessage()]);
         }
     }
 
@@ -253,35 +269,24 @@ class CarController extends Controller
             $search_by_text = $request->search_by_text;
             $search_car_type_id_search = $request->search_car_type_id_search;
             $search_car_status_id_search = $request->search_car_status_id_search;
-            if ($search_by_text == 'all') {     
-                $field1 = "id";
-                $operator1 = ">";
-                $value1 = 0;
-            } else {
-                $field1 = "plate_number";
-                $operator1 = "LIKE";
-                $value1 = $search_by_text;
-            }
-            if ($search_car_type_id_search == 'all') {
-                $field2 = "id";
-                $operator2 = ">";
-                $value2 = 0;
-            } else {
-                $field2 = "type_id";
-                $operator2 = "=";
-                $value2 = $search_car_type_id_search;
-            }
-            if ($search_car_status_id_search == 'all') {
-                $field3 = "id";
-                $operator3 = ">";
-                $value3 = 0;
-            } else {
-                $field3 = "car_status";
-                $operator3 = "=";
-                $value3 = $search_car_status_id_search;
-            }
 
-            $data = Car::where($field1, $operator1, "%{$value1}%")->where($field2, $operator2, $value2)->where($field3, $operator3, $value3)->paginate(PAGINATION_COUNT);
+            $field1 = $search_by_text == 'all' ? "id" : "plate_number";
+            $operator1 = $search_by_text == 'all' ? ">" : "LIKE";
+            $value1 = $search_by_text == 'all' ? 0 : $search_by_text;
+
+            $field2 = $search_car_type_id_search == 'all' ? "id" : "type_id";
+            $operator2 = $search_car_type_id_search == 'all' ? ">" : "=";
+            $value2 = $search_car_type_id_search == 'all' ? 0 : $search_car_type_id_search;
+
+            $field3 = $search_car_status_id_search == 'all' ? "id" : "car_status";
+            $operator3 = $search_car_status_id_search == 'all' ? ">" : "=";
+            $value3 = $search_car_status_id_search == 'all' ? 0 : $search_car_status_id_search;
+
+            $data = Car::where($field1, $operator1, "%{$value1}%")
+                ->where($field2, $operator2, $value2)
+                ->where($field3, $operator3, $value3)
+                ->paginate(PAGINATION_COUNT);
+
             return view('admin.cars.ajax_search', ['data' => $data]);
         }
     }

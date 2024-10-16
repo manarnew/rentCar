@@ -1,126 +1,101 @@
 @extends('layouts.admin')
+
 @section('title')
-ضبط السيارات
+    {{ __('CarExpenses.title') }}
 @endsection
+
 @section('contentheader')
-مصروفات السيارات 
+    {{ __('CarExpenses.content_header') }}
 @endsection
+
 @section('contentheaderlink')
-<a href="{{ route('CarExpenses.index') }}">مصروفات  السيارات </a>
+    <a href="{{ route('CarExpenses.index') }}">{{ __('CarExpenses.content_header_link') }}</a>
 @endsection
+
 @section('contentheaderactive')
-عرض التفاصيل
+    {{ __('CarExpenses.content_header_active') }}
 @endsection
+
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title card_title_center"> عرض بيانات مصروفات السيارات </h3>
+            <h3 class="card-title card_title_center">{{ __('CarExpenses.view_expense_data') }}</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
             <div class="row">
                 <table id="example2" class="table table-bordered table-hover">
                     <tr>
-                        <td>  رقم اللوحة   </td>
+                        <td>{{ __('CarExpenses.plate_number') }}</td>
+                        <td colspan="2">{{ $data['car_id'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('CarExpenses.car_color') }}</td>
+                        <td colspan="2">{{ $data->car->car_color }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('CarExpenses.car_type') }}</td>
+                        <td colspan="2">{{ $data->car->type->name }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('CarExpenses.receipt_image') }}</td>
                         <td colspan="2">
-                            {{ $data['car_id'] }}
+                            <img class="custom_img" src="{{ asset('assets/admin/uploads').'/'.$data->image }}" style="width: 150px; padding: 5px; height: 150px;">
                         </td>
                     </tr>
                     <tr>
-                        <td> لون السيارة  </td>
-                        <td colspan="2">
-                            {{ $data->car->car_color }}
-                        </td>
+                        <td>{{ __('CarExpenses.expense_price') }}</td>
+                        <td colspan="2">{{ $data->price }}</td>
                     </tr>
                     <tr>
-                        <td>   نوع السيارة </td>
-                        <td colspan="2">
-                            {{ $data->car->type->name}}
-                        </td>
-                    </tr>
-                   
-                    <tr>
-                        <td>صورة الايصال   </td>
-                        <td colspan="2">
-                            <img class="custom_img" src="{{ asset('assets/admin/uploads').'/'.$data->image }}" style="width: 150px;padding: 5px;height:150px;"  >   
-                        </td>
+                        <td>{{ __('CarExpenses.tax') }}</td>
+                        <td colspan="2">{{ $data->tax }}</td>
                     </tr>
                     <tr>
-                        <td> سعر المصروف   </td>
-                        <td colspan="2">
-                            {{$data->price}}
-                        </td>
+                        <td>{{ __('CarExpenses.total_with_tax') }}</td>
+                        <td colspan="2">{{ $data->total_price_tax }}</td>
                     </tr>
                     <tr>
-                        <td> الضريبة    </td>
-                        <td colspan="2">
-                            {{$data->tax}}
-                        </td>
+                        <td>{{ __('CarExpenses.supplier') }}</td>
+                        <td colspan="2">{{ $data->supplier }}</td>
                     </tr>
                     <tr>
-                        <td> الاجمالي مع الضريبة    </td>
-                        <td colspan="2">
-                            {{$data->total_price_tax}}
-                        </td>
+                        <td>{{ __('CarExpenses.details') }}</td>
+                        <td colspan="2">{{ $data->note }}</td>
                     </tr>
                     <tr>
-                        <td>   المورد    </td>
-                        <td colspan="2">
-                            {{$data->supplier}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>   تفاصيل    </td>
-                        <td colspan="2">
-                            {{$data->note}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="width30"> تاريخ الاضافة</td>
+                        <td class="width30">{{ __('CarExpenses.created_at') }}</td>
                         <td>
                             @php
                                 $dt = new DateTime($data['created_at']);
                                 $date = $dt->format('Y-m-d');
                                 $time = $dt->format('h:i');
                                 $newDateTime = date('A', strtotime($time));
-                                $newDateTimeType = $newDateTime == 'AM' ? 'صباحا ' : 'مساء';
+                                $newDateTimeType = $newDateTime == 'AM' ? 'صباحا' : 'مساء';
                             @endphp
-                            {{ $date }}
-                            {{ $time }}
-                            {{ $newDateTimeType }}
-                            بواسطة
-                            {{ $data->user->name }}
+                            {{ $date }} {{ $time }} {{ $newDateTimeType }} بواسطة {{ $data->user->name }}
                         </td>
                     </tr>
                     <tr>
-                        <td> تاريخ اخر تحديث</td>
+                        <td>{{ __('CarExpenses.updated_at') }}</td>
                         <td colspan="2">
-                            @if ($data['updated_by'] > 0 and $data['updated_by'] != null)
+                            @if ($data['updated_by'] > 0 && $data['updated_by'] != null)
                                 @php
                                     $dt = new DateTime($data['updated_at']);
                                     $date = $dt->format('Y-m-d');
                                     $time = $dt->format('h:i');
                                     $newDateTime = date('A', strtotime($time));
-                                    $newDateTimeType = $newDateTime == 'AM' ? 'صباحا ' : 'مساء';
+                                    $newDateTimeType = $newDateTime == 'AM' ? 'صباحا' : 'مساء';
                                 @endphp
-                                {{ $date }}
-                                {{ $time }}
-                                {{ $newDateTimeType }}
-                                بواسطة
-                                {{ $data->user->name }}
-                                {{ $data['updated_by_admin'] }}
+                                {{ $date }} {{ $time }} {{ $newDateTimeType }} بواسطة {{ $data->user->name }} {{ $data['updated_by_admin'] }}
                             @else
-                                لايوجد تحديث
+                                {{ __('CarExpenses.no_update') }}
                             @endif
-                            <a href="{{ route('admin.customer.edit', $data['id']) }}"
-                                class="btn btn-sm btn-success">تعديل</a>
+                            <a href="{{ route('admin.customer.edit', $data['id']) }}" class="btn btn-sm btn-success">{{ __('CarExpenses.edit') }}</a>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
-            
     </div>
-    @endsection
-
-    
+@endsection

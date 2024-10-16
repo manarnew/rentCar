@@ -35,29 +35,26 @@ class CarModalsController extends Controller
     {
         check_permission_sub_menue_actions_redirect(10);
         try {
-            $com_code = auth()->user()->com_code;
             $id = auth()->user()->id;
-            //check if not exsits
+            // Check if not exists
             $checkExists = CarModals::where(['name' => $request->name])->first();
             if ($checkExists == null) {
                 $data['added_by'] = $id;  
                 $data['name'] = $request->name;  
-                $data['created_at'] = date("Y-m-d H:i:s");
+                $data['created_at'] = now();
                 CarModals::create($data);
-                return redirect()->route('CarModals.index')->with(['success' => 'لقد تم اضافة البيانات بنجاح']);
+                return redirect()->route('CarModals.index')->with(['success' => __('controller.data_added')]);
             } else {
                 return redirect()->back()
-                    ->with(['error' => 'عفوا اسم الفئة مسجل من قبل'])
+                    ->with(['error' => __('controller.modal_name_exists')])
                     ->withInput();
             }
         } catch (\Exception $ex) {
             return redirect()->back()
-                ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()])
+                ->with(['error' => __('controller.error_occurred') . $ex->getMessage()])
                 ->withInput();
         }
     }
-
-   
 
     /**
      * Show the form for editing the specified resource.
@@ -78,29 +75,31 @@ class CarModalsController extends Controller
         try {
             $data = CarModals::select()->find($id);
             if (empty($data)) {
-                return redirect()->route('CarModals.index')->with(['error' => 'عفوا غير قادر علي الوصول الي البيانات المطلوبة !!']);
+                return redirect()->route('CarModals.index')->with(['error' => __('controller.data_not_found')]);
             }
             $checkExists = CarModals::where(['name' => $request->name])->where('id', '!=', $id)->first();
             if ($checkExists != null) {
                 return redirect()->back()
-                    ->with(['error' => 'عفوا اسم الخزنة مسجل من قبل'])
+                    ->with(['error' => __('controller.modal_name_exists')])
                     ->withInput();
             }
             $data_to_update['name'] = $request->name;
-            $data_to_update['updated_at'] = date("Y-m-d H:i:s");
-            $ids = auth()->user()->id;
-            $data_to_update['updated_by'] = $ids;
+            $data_to_update['updated_at'] = now();
+            $data_to_update['updated_by'] = auth()->user()->id;
             CarModals::where(['id' => $id])->update($data_to_update);
-            return redirect()->route('CarModals.index')->with(['success' => 'لقد تم تحديث البيانات بنجاح']);
+            return redirect()->route('CarModals.index')->with(['success' => __('controller.data_updated')]);
         } catch (\Exception $ex) {
             return redirect()->back()
-                ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()])
+                ->with(['error' => __('controller.error_occurred') . $ex->getMessage()])
                 ->withInput();
         }
     }
-    public function show(string $id){
 
+    public function show(string $id)
+    {
+        // Implementation for show method if needed
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -113,23 +112,23 @@ class CarModalsController extends Controller
                 $checkExists = Car::where(['car_modals_id' => $carType->id])->first();
                 if ($checkExists) {
                     return redirect()->back()
-                    ->with(['error' => '   عفوا لا يمكن حذف الموديل لوجود سيارات مرتبطة به']);
+                        ->with(['error' => __('controller.cannot_delete_linked_data')]);
                 }
-                    $flag = $carType->delete();
-                    if ($flag) {
-                        return redirect()->back()
-                            ->with(['success' => '   تم حذف البيانات بنجاح']);
-                    } else {
-                        return redirect()->back()
-                            ->with(['error' => 'عفوا حدث خطأ ما']);
-                    }
-                }else {
+                $flag = $carType->delete();
+                if ($flag) {
                     return redirect()->back()
-                        ->with(['error' => 'عفوا لا  يمكن حذف البيانات لوجود منتجات  مرتبطة به']);
+                        ->with(['success' => __('controller.data_deleted')]);
+                } else {
+                    return redirect()->back()
+                        ->with(['error' => __('controller.error_occurred')]);
                 }
+            } else {
+                return redirect()->back()
+                    ->with(['error' => __('controller.data_not_found')]);
+            }
         } catch (\Exception $ex) {
             return redirect()->back()
-                ->with(['error' => 'عفوا حدث خطأ ما' . $ex->getMessage()]);
+                ->with(['error' => __('controller.error_occurred') . $ex->getMessage()]);
         }
     }
 }

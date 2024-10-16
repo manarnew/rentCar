@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\Permission_main_menuesController;
 use App\Http\Controllers\Admin\Permission_rolesController;
 use App\Http\Controllers\Admin\Permission_sub_menuesController;
 use App\Http\Controllers\Admin\Black_listsController;
+use App\Http\Controllers\Admin\ExpensesTypeController;
+use App\Http\Controllers\Admin\ExpensesController;
 /* 
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,7 +31,7 @@ use App\Http\Controllers\Admin\Black_listsController;
 |
 */
 
-define('PAGINATION_COUNT', 10);
+// define('PAGINATION_COUNT', 10);
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     
 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -55,6 +57,17 @@ Route::resource('/carType', CarTypeController::class);
 
 /*    ═══════ ೋღ  End CarType ღೋ ═══════       */ 
 
+
+/*  ═══════ ೋღ  ღೋ ═══════       start  expensesType  ═══════ ೋღ  ღೋ ═══════ */
+Route::get('/expensesType/delete/{id}', [ExpensesTypeController::class, 'delete'])->name('admin.expensesType.delete');
+Route::resource('/expensesType', ExpensesTypeController::class);
+
+/*    ═══════ ೋღ  End expensesType ღೋ ═══════       */ 
+/*  ═══════ ೋღ  ღೋ ═══════       start  CarStatus  ═══════ ೋღ  ღೋ ═══════ */
+Route::get('/expenses/delete/{id}', [ExpensesController::class, 'delete'])->name('admin.expenses.delete');
+Route::resource('/expenses', ExpensesController::class);
+Route::post('/expenses/ajax_search', [ExpensesController::class, 'ajax_search'])->name('admin.expenses.ajax_search');
+/*    ═══════ ೋღ  End CarStatus ღೋ ═══════       */ 
 
 
 /*  ═══════ ೋღ  ღೋ ═══════       start  CarStatus  ═══════ ೋღ  ღೋ ═══════ */
@@ -152,8 +165,18 @@ Route::post('/Report/userReport', [ReportController::class, 'userReport'])->name
 Route::get('/Report/carExpensesReport', [ReportController::class, 'indexCarExpensesReport'])->name('admin.Report.carExpensesReport');
 Route::post('/Report/carExpensesReport', [ReportController::class, 'carExpensesReport'])->name('admin.Report.carExpensesReport');
 
+Route::get('/Report/expensesReport', [ReportController::class, 'indexExpensesReport'])->name('admin.Report.expensesReport');
+Route::post('/Report/expensesReport', [ReportController::class, 'expensesReport'])->name('admin.Report.expensesReport');
+
+Route::get('/Report/profitsReport', [ReportController::class, 'indexProfitsReport'])->name('admin.Report.profitsReport');
+Route::post('/Report/profitsReport', [ReportController::class, 'profitsReport'])->name('admin.Report.profitsReport');
+
+
 Route::get('/Report/taxReport', [ReportController::class, 'indexTaxReport'])->name('admin.Report.indexTaxReport');
 Route::post('/Report/taxExpensesReport', [ReportController::class, 'taxReport'])->name('admin.Report.taxReport');
+
+Route::get('/Report/debtReport', [ReportController::class, 'indexDebtReport'])->name('admin.Report.indexDebtReport');
+Route::post('/Report/debtReport', [ReportController::class, 'debtReport'])->name('admin.Report.debtReport');
 /*  ═══════ ೋღ end  Report ღೋ ═══════  */
 
 /*     ═══════ ೋღ start  permission  ღೋ ═══════              */
@@ -208,3 +231,9 @@ Route::get('login', [LoginController::class, 'show_login_view'])->name('admin.sh
 Route::post('login', [LoginController::class, 'login'])->name('admin.login');
 
 });
+Route::get('langConverter/{locale}',function($locale){
+    if(in_array($locale,['ar','en'])){
+        session()->put('locale',$locale);
+        return redirect()->back();
+    };
+})->name('langConverter');

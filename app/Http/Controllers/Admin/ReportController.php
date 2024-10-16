@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Car;
 use App\Models\CarExpenses;
+use App\Models\Expenses;
+use App\Models\expensesType;
 use App\Models\Contracts;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -278,4 +281,160 @@ class ReportController extends Controller
             return view('admin.report.taxReport', ['total_Contracts_tax' => $total_Contracts_tax,'from_date_search'=>$from_date_search,'to_date_search'=>$to_date_search
                         ,'contracts'=>$contracts,'total_CarExpenses_tax' => $total_CarExpenses_tax,'carExpenses'=>$carExpenses,'taxType'=>$taxType]);
     }
+
+    
+    public function indexExpensesReport(){
+        check_permission_sub_menue_actions_redirect(48);
+        $expenses_type = expensesType::select()->orderby('id', 'DESC')->get();
+        return view('admin.report.indexExpensesReport', ['expenses_type'=>$expenses_type]);
+    }
+    public function expensesReport(Request $request)
+    {
+        check_permission_sub_menue_actions_redirect(49);
+        $from_date_search = $request->from_date_search;
+        $to_date_search = $request->to_date_search;
+        $expenses_type_id_search = $request->expenses_type_id_search;
+        if ($from_date_search == '') {
+            //دائما  true
+            $field1 = "id";
+            $operator1 = ">";
+            $value1 = 0;
+        } else {
+            $field1 = "date";
+            $operator1 = ">=";
+            $value1 = $from_date_search;
+        }
+        if ($to_date_search == '') {
+            //دائما  true
+            $field2 = "id";
+            $operator2 = ">";
+            $value2 = 0;
+        } else {
+            $field2 = "date";
+            $operator2 = "<=";
+            $value2 = $to_date_search;
+        }
+        if ($expenses_type_id_search == '') {
+            //دائما  true
+            $field3 = "id";
+            $operator3 = ">";
+            $value3 = 0;
+        } else {
+            $field3 = "expenses_type";
+            $operator3 = "=";
+            $value3 = $expenses_type_id_search;
+        }
+       
+         
+         if ($to_date_search == "") {
+            $to_date_search = date("Y-m-d");
+        }
+        if ($from_date_search == "") {
+            $from_date_search = Expenses::first()->value("date");
+        }
+        
+            $total_price = Expenses::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->where($field3, $operator3, $value3)->sum('total');
+            $carExpenses = Expenses::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->where($field3, $operator3, $value3)->get();
+            if($expenses_type_id_search != ''){  
+                $expensesType =  expensesType::where('id', $expenses_type_id_search)->first();
+            }else{
+                $expensesType ="";
+            }
+            return view('admin.report.expensesReport', ['total_price' => $total_price,'from_date_search'=>$from_date_search,'to_date_search'=>$to_date_search
+                        ,'expensesType'=>$expensesType,'carExpenses'=>$carExpenses]);
+    }
+
+    public function indexProfitsReport(){
+        check_permission_sub_menue_actions_redirect(48);
+        $expenses_type = expensesType::select()->orderby('id', 'DESC')->get();
+        return view('admin.report.indexProfitsReport', ['expenses_type'=>$expenses_type]);
+    }
+    public function profitsReport(Request $request)
+    {
+        check_permission_sub_menue_actions_redirect(49);
+        $from_date_search = $request->from_date_search;
+        $to_date_search = $request->to_date_search;
+        if ($from_date_search == '') {
+            //دائما  true
+            $field1 = "id";
+            $operator1 = ">";
+            $value1 = 0;
+        } else {
+            $field1 = "date";
+            $operator1 = ">=";
+            $value1 = $from_date_search;
+        }
+        if ($to_date_search == '') {
+            //دائما  true
+            $field2 = "id";
+            $operator2 = ">";
+            $value2 = 0;
+        } else {
+            $field2 = "date";
+            $operator2 = "<=";
+            $value2 = $to_date_search;
+        }
+         
+         if ($to_date_search == "") {
+            $to_date_search = date("Y-m-d");
+        }
+        if ($from_date_search == "") {
+            $from_date_search = Contracts::first()->value("date");
+        }
+            $total_Contracts = Contracts::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->sum('total_price');
+            $total_CarExpenses = CarExpenses::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->sum('total_price_tax');
+            $total_Expenses = Expenses::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->sum('total');
+            return view('admin.report.profitsReport', ['total_Contracts' => $total_Contracts,'total_CarExpenses' => $total_CarExpenses,'total_Expenses' => $total_Expenses,'from_date_search'=>$from_date_search,'to_date_search'=>$to_date_search]);
+    }
+
+    public function indexDebtReport(){
+        $customer = Customer::select()->where('remaining_money','>',0)->orderby('id', 'DESC')->get();
+        return view('admin.report.indexDebtReport', ['customer'=>$customer]);
+    }
+    public function debtReport(Request $request)
+    {
+        $from_date_search = $request->from_date_search;
+        $to_date_search = $request->to_date_search;
+        $customer = $request->customer;
+        if ($from_date_search == '') {
+            //دائما  true
+            $field1 = "id";
+            $operator1 = ">";
+            $value1 = 0;
+        } else {
+            $field1 = "date";
+            $operator1 = ">=";
+            $value1 = $from_date_search;
+        }
+        if ($to_date_search == '') {
+            //دائما  true
+            $field2 = "id";
+            $operator2 = ">";
+            $value2 = 0;
+        } else {
+            $field2 = "date";
+            $operator2 = "<=";
+            $value2 = $to_date_search;
+        }
+        if ($customer == 'all') {
+            //دائما  true
+            $field3 = "id";
+            $operator3 = ">";
+            $value3 = 0;
+        } else {
+            $field3 = "id";
+            $operator3 = "=";
+            $value3 = $customer;
+        }
+       
+         
+         if ($to_date_search == "") {
+            $to_date_search = date("Y-m-d");
+        }
+            $total_debt = Customer::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->where($field3, $operator3, $value3)->where('remaining_money','>',0)->sum('remaining_money');
+            $customers = Customer::where($field1, $operator1, $value1)->where($field2, $operator2, $value2)->where($field3, $operator3, $value3)->where('remaining_money','>',0)->get();
+            return view('admin.report.debtReport', ['customers' => $customers,'total_debt'=>$total_debt,
+        'to_date_search'=>$to_date_search,'from_date_search'=>$from_date_search]);
+    }
+
 }

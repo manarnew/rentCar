@@ -77,8 +77,8 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
             
             @endif
             @if(check_permission_main_menue(2)==true) 
-    <li class="nav-item has-treeview {{ ((request()->is('admin/debentures*'))||(request()->is('admin/CarExpenses*')  ) )?'menu-open':'' }}     ">
-               <a href="#" class="nav-link {{ ((request()->is('admin/debentures*')  )  ||(request()->is('admin/CarExpenses*')  )  )?'active':'' }}">
+    <li class="nav-item has-treeview {{ ((request()->is('admin/expenses*'))||(request()->is('admin/expensesType*'))||(request()->is('admin/debentures*'))||(request()->is('admin/CarExpenses*')  ) )?'menu-open':'' }}     ">
+               <a href="#" class="nav-link {{ ((request()->is('admin/expenses*'))||(request()->is('admin/expensesType*'))||(request()->is('admin/debentures*')  )  ||(request()->is('admin/CarExpenses*')  )  )?'active':'' }}">
                        <i class="fas fa-ticket-alt"></i>
                        <p>
                      الحسابات
@@ -87,6 +87,24 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                   </p>
                </a>
                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                     <a href="{{ route('expensesType.index') }}" class="nav-link {{ (request()->is('admin/expensesType*') )?'active':'' }}">
+                    <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+
+                        <p>
+                            انواع المصروفات         
+                        </p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ route('expenses.index') }}" class="nav-link {{ (request()->is('admin/expenses*') )?'active':'' }}">
+                    <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+
+                        <p>
+                             المصروفات         
+                        </p>
+                     </a>
+                  </li>
                   <li class="nav-item">
                      <a href="{{ route('debentures.index') }}" class="nav-link {{ (request()->is('admin/debentures*') )?'active':'' }}">
                     <i class="far fa-circle" style="color:#; font-size:13px;"></i>
@@ -205,9 +223,27 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                      </a>
                   </li>
                   <li class="nav-item">
+                     <a href="{{ route('admin.Report.expensesReport') }}" class="nav-link {{ (request()->is('admin/Report/expensesReport*') ) ?'active':'' }}">
+                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+                           <p> تقارير المصروف   </p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
                      <a href="{{ route('admin.Report.indexTaxReport') }}" class="nav-link {{ (request()->is('admin/Report/indexTaxReport*') ) ?'active':'' }}">
                         <i class="far fa-circle" style="color:#; font-size:13px;"></i>
                            <p> تقارير الضرائب   </p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ route('admin.Report.profitsReport') }}" class="nav-link {{ (request()->is('admin/Report/profitsReport*') ) ?'active':'' }}">
+                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+                           <p> تقارير الارباح و الخسائر   </p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ route('admin.Report.indexDebtReport') }}" class="nav-link {{ (request()->is('admin/Report/indexDebtReport*') ) ?'active':'' }}">
+                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+                           <p> تقارير الديون   </p>
                      </a>
                   </li>
                </ul>
