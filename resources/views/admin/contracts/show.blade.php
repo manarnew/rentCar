@@ -180,7 +180,7 @@
                                 لايوجد تحديث
                             @endif
                             <a href="{{ route('admin.customer.edit', $data['id']) }}"
-                                class="btn btn-sm btn-success">تعديل</a>
+                                class="btn btn-sm btn-success" title="تعديل"><i class="fas fa-edit fa-sm"></i></a>
                         </td>
                     </tr>
                 </table>

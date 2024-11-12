@@ -77,7 +77,7 @@
                   <span class="text-danger">{{ $message }}</span>
                   @enderror
                </div>
-               <div class="col-md-12">
+                 <div class="col-md-12">
                   <div class="form-group"  >
                       <label>   الصورة   </label>
                      <div class="image">
@@ -91,6 +91,7 @@
                </div>
                <div class="form-group text-center">
                   <button type="submit" class="btn btn-primary btn-sm">حفظ التعديلات</button>
+                    
                </div>
             </form>
             @else
@@ -121,7 +122,7 @@ $(document).on('click', '#image_upload', function(e) {
       $("#old_image").html('');
       return false;
   });
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
   var checkForupdatePassword = document.getElementById('checkForupdatePassword');
   var PasswordDIV = document.getElementById('PasswordDIV');
 

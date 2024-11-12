@@ -76,11 +76,11 @@
                                         <td> {{ $info->date }} </td>
                                         <td> {{ $info->return_date }} </td>
                                         <td>
-                                            @if ($info->contract_type == 1)
+                                            @if ($info->contract_status == 1)
                                             مكتمل
-                                            @elseif($info->contract_type == 2)
+                                            @elseif($info->contract_status == 2)
                                             في الانتظار 
-                                            @elseif($info->contract_type == 3)
+                                            @elseif($info->contract_status == 3)
                                             مرفوض
                                             @else
                                             ملغي
@@ -91,37 +91,42 @@
                                             
                                              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                                  <!--send-whatsapp-->
-                                                                            @php
-                                                                            $id_get = base64_encode($info->id);
-                                                                            @endphp
+                                                                           
                                                                  <a type="button" class="btn are_you_shue btn-success"
                                                                   href="{{ route('admin.customer.send',$info->customer->id) }}" style="color:#fff;" title="ارسال العقد علي واتساب"><i class="fab fa-whatsapp fa-sm"></i>
                                                                   </a>
                                                                   <!--/send-whatsapp-->
                                                                    @if(check_permission_sub_menue_actions(25)==true) 
                                                                   <a type="button" class="btn are_you_shue btn-danger"
-                                                                  href="{{ route('admin.contracts.delete', $info->id) }}" style="color:#000;" title="حذف"><i class="fas fa-trash-alt"></i> 
+                                                                  href="{{ route('admin.contracts.delete', $info->id) }}" style="color:#fff;" title="حذف"><i class="fas fa-trash-alt fa-sm"></i> 
                                                                   </a>
                                                                     @endif
                                                                   @if(check_permission_sub_menue_actions(24)==true) 
-                                                                  <a class="btn btn-warning" href="{{ route('contracts.edit', $info->id) }}" style="color:#000;" title="تعديل"><i class="fas fa-edit"></i>   
+                                                                  <a class="btn btn-warning" href="{{ route('contracts.edit', $info->id) }}" style="color:#fff;" title="تعديل"><i class="fas fa-edit fa-"></i>   
                                                                    </a>
-                                                                   <!--</div>-->
-                                                                   <!-- <div class="btn-group" role="group" aria-label="Basic mixed styles example">-->
+                                                                   </div>
+                                                                 <!--بلاغ-->
+                                                                   <button type="button"  class="btn btn-primary data_id" data-toggle="modal" data-target="#rop" data-whatever="@getbootstrap" data-id="{{ $info->id }}" title="أرشفة بلاغ"><i class="fa fa-bug" aria-hidden="true"></i>
+</button>
+                                                                 <!--/بلاغ-->
+                                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                                    @endif
                                                                   @if(check_permission_sub_menue_actions(26)==true) 
-                                                                  <a class="btn btn-info" href="{{ route('admin.contracts.invoice', $info->id) }}" style="color:#fff;" title="طباعة"><i class="fas fa-print"></i>
+                                                                  <a class="btn btn-info" href="{{ route('admin.contracts.invoice', $info->id) }}" style="color:#fff;" title="طباعة"><i class="fas fa-print fa-sm"></i>
                                                                    </a>
                                                                    @endif
                                                                     @if(check_permission_sub_menue_actions(52)==true) 
-                                                                    <a class="btn btn-secondary" href="{{ route('admin.debentures.create', $info->id) }}" style="color:#fff;" title="سند قبض"><i class="fas fa-ticket-alt"></i></a>
+                                                                    <a class="btn btn-secondary" href="{{ route('admin.debentures.create', $info->id) }}" style="color:#fff;" title="سند قبض"><i class="fas fa-ticket-alt fa-sm"></i></a>
                                                                   
                                                                      @endif
                                                                        @if(check_permission_sub_menue_actions(53)==true) 
                                                                <form method="POST" action="{{ route('admin.signature_image.create_signature_image') }}">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{$info->id}}">
-                                                            <button style="color:#fff;" title="التوقيع" class="btn btn-primary"><i class="fas fa-signature"></i></button>
+                                                            @php
+                                                            $sys =  App\Models\Panel_settings::where('id',1)->first();
+                                                            @endphp
+                                                            <button style="padding-left: 10.2px; border-radius: 1px 0px 0px 1px; background-color:{{ $sys['theme_color'] }}; border-color:{{ $sys['theme_color'] }}; color:#fff;" title="التوقيع" class="btn btn-primary"><i class="fas fa-signature"></i></button>
                                                           </form>
                                                             @endif
                                                                  </div>
@@ -178,5 +183,54 @@
                 error: function() {}
             });
         }
+        $(document).ready(function() {
+    $('.data_id').on('click', function() {
+        var dataId = $(this).data('id'); // Get the data-id of the clicked element
+       $("#contract_id").val(dataId)
+    });
+});
     </script>
+    <!---->
+<div class="modal fade" id="rop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">تسجيل بلاغ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('communique.store') }}" method="post">
+            @csrf
+          <div class="form-group">
+              <input type="hidden" class="form-control" name="contract_id" id="contract_id" >
+            <label for="recipient-name" class="col-form-label">رقم البلاغ</label>
+            <input type="text" class="form-control" id="recipient-name"  name="communique_number">
+          </div>
+          <div class="form-group">
+  
+  <label for="recipient-name" class="col-form-label">مكان البلاغ</label>
+  <input type="text" class="form-control" id="recipient-name"  name="communique_place">
+</div>
+        <div class="form-group">
+    <label for="message-text" class="col-form-label">تاريخ البلاغ</label>
+      <input type="date" class="form-control" id="recipient-name"  value="{{date(("Y-m-d"))}}"  name="date">
+    
+  </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">تفاصيل البلاغ</label>
+            <textarea class="form-control" id="message-text"   name="details"></textarea>
+          </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">حفظ</button>
+         </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!---->
 @endsection

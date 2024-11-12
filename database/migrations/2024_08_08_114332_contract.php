@@ -19,7 +19,6 @@ return new class extends Migration
             $table->tinyInteger('contract_number');
             $table->decimal('contract_price');
             $table->tinyInteger('contract_status');
-            $table->string('payment_type');
             $table->decimal('pre_paid_price')->nullable();
             $table->decimal('paid_price')->nullable();
             $table->decimal('tax_price')->nullable();

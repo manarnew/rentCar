@@ -18,7 +18,7 @@
          <div class="card-header">
             <h3 class="card-title card_title_center">بيانات   القوائم الرئيسية للصلاحيات</h3>
             <input type="hidden" id="token_search" value="{{csrf_token() }}">
-            <a href="{{ route('admin.permission_main_menues.create') }}" class="btn btn-sm btn-success" >اضافة جديد</a>
+            <a href="{{ route('admin.permission_main_menues.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> اضافة جديد</a></a>
          </div>
          <!-- /.card-header -->
          <div class="card-body">

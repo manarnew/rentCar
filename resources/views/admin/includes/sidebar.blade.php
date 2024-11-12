@@ -1,13 +1,13 @@
 @php
-$sys =  App\Models\Panel_settings::where('id',1)->first();
+$sys =  App\Models\PanelSetting::where('id',1)->first();
 @endphp
 <aside style="background-color:{{ $sys['theme_color'] }};" class="main-sidebar sidebar-dark-primary elevation-4">
    <!-- Brand Logo -->
    <a href="{{ route('admin.dashboard') }}" class="brand-link">
           <img class="brand-imagez img-circles elevation-3e img-thumbnail" style="opacity: .8" src="{{ asset('assets/admin/uploads').'/'.$sys->photo }}"  alt="لوجو الشركة">       
-   <br><p id="ellipsis" class="overflow-ellipsis brand-text font-weight-light" > 
-      {{$sys->system_name}} 
-   </p>
+   <!--<br><p id="ellipsis" class="overflow-ellipsis brand-text font-weight-light" > -->
+   <!--   {{$sys->system_name}} -->
+   <!--</p>-->
    </a>
    <!-- Sidebar -->
    <div class="sidebar">
@@ -44,15 +44,15 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                         </p>
                      </a>
                   </li>
-                  <li class="nav-item">
-                     <a href="{{ route('CarModals.index') }}" class="nav-link {{ (request()->is('admin/CarModals*') )?'active':'' }}">
-                    <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+                  <!--<li class="nav-item">-->
+                  <!--   <a href="{{ route('CarModals.index') }}" class="nav-link {{ (request()->is('admin/CarModals*') )?'active':'' }}">-->
+                  <!--  <i class="far fa-circle" style="color:#; font-size:13px;"></i>-->
 
-                        <p>
-                           موديل السيارات         
-                        </p>
-                     </a>
-                  </li>
+                  <!--      <p>-->
+                  <!--         موديل السيارات         -->
+                  <!--      </p>-->
+                  <!--   </a>-->
+                  <!--</li>-->
                   <li class="nav-item">
                      <a href="{{ route('admin.car.index') }}" class="nav-link {{ (request()->is('admin/car*') and !request()->is('admin/carType*') )?'active':'' }}">
                     <i class="far fa-circle" style="color:#; font-size:13px;"></i>
@@ -87,7 +87,7 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                   </p>
                </a>
                <ul class="nav nav-treeview">
-                  <li class="nav-item">
+                      <li class="nav-item">
                      <a href="{{ route('expensesType.index') }}" class="nav-link {{ (request()->is('admin/expensesType*') )?'active':'' }}">
                     <i class="far fa-circle" style="color:#; font-size:13px;"></i>
 
@@ -96,7 +96,7 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                         </p>
                      </a>
                   </li>
-                  <li class="nav-item">
+                     <li class="nav-item">
                      <a href="{{ route('expenses.index') }}" class="nav-link {{ (request()->is('admin/expenses*') )?'active':'' }}">
                     <i class="far fa-circle" style="color:#; font-size:13px;"></i>
 
@@ -145,7 +145,7 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                         </p>
                      </a>
                   </li>
-                  <li class="nav-item">
+                                  <li class="nav-item">
                      <a href="{{ route('Black_lists.index') }}" class="nav-link {{ (request()->is('admin/Black_lists*') )?'active':'' }}">
                     <i class="far fa-circle" style="color:#; font-size:13px;"></i>
                         <p>
@@ -153,6 +153,15 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                         </p>
                      </a>
                   </li>
+                             </li>
+                   <li class="nav-item">
+    <a href="{{ route('communique.index') }}" class="nav-link {{ (request()->is('admin/communique*') )?'active':'' }}">
+   <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+       <p>
+           البلاغات         
+       </p>
+    </a>
+ </li>
                </ul>
             </li>
             @if(check_permission_main_menue(3)==true) 
@@ -160,7 +169,7 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                <a href="#" class="nav-link {{ (request()->is('admin/admins_accounts*') || request()->is('admin/permission_roles*')  || request()->is('admin/permission_main_menues*') ||request()->is('admin/permission_sub_menues*'))?'active':'' }}">
                   <i class="fas fa-users-cog"></i>
                   <p>
-                     المدراء  
+                     الإدارة  
                      <i class="right fas fa-angle-left"></i>
                   </p>
                </a>
@@ -168,7 +177,7 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                   <a href="{{ route('admin.permission_roles.index') }}" class="nav-link {{ (request()->is('admin/permission_roles*') )?'active':'' }}">
                      <i class="far fa-circle" style="color:#; font-size:13px;"></i>
                      <p>
-                        أدوار المدراء         
+                        أدوار المستخدمين         
                      </p>
                   </a>
 
@@ -178,20 +187,20 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                         <i class="far fa-circle" style="color:#; font-size:13px;"></i>
 
                         <p>
-                           المدراء         
+                           الموظفين         
                         </p>
                      </a>
                   </li>
-                  <a href="{{ route('admin.permission_main_menues.index') }}" class="nav-link {{ (request()->is('admin/permission_main_menues*') )?'active':'' }}">
-                     <p>
-                 القوائم الرئيسية للصلاحيات        
-                     </p>
-                  </a>
-                  <a href="{{ route('admin.permission_sub_menues.index') }}" class="nav-link {{ (request()->is('admin/permission_sub_menues*') )?'active':'' }}">
-                     <p>
-                 القوائم الفرعية للصلاحيات        
-                     </p>
-                  </a>
+                   <!--<a href="{{ route('admin.permission_main_menues.index') }}" class="nav-link {{ (request()->is('admin/permission_main_menues*') )?'active':'' }}">-->
+                   <!--     <p>-->
+                   <!-- القوائم الرئيسية للصلاحيات        -->
+                   <!--     </p>-->
+                   <!--  </a>-->
+                   <!--  <a href="{{ route('admin.permission_sub_menues.index') }}" class="nav-link {{ (request()->is('admin/permission_sub_menues*') )?'active':'' }}">-->
+                   <!--     <p>-->
+                   <!-- القوائم الفرعية للصلاحيات        -->
+                   <!--     </p>-->
+                   <!--  </a>-->
                </ul>
             </li>
             @endif
@@ -204,6 +213,12 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                   </p>
                </a>
                <ul class="nav nav-treeview">
+                   <li class="nav-item">
+                     <a href="{{ route('admin.Report.indexTaxReport') }}" class="nav-link {{ (request()->is('admin/Report/indexTaxReport*') ) ?'active':'' }}">
+                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+                           <p> تقارير الضرائب   </p>
+                     </a>
+                  </li>
                   <li class="nav-item">
                      <a href="{{ route('admin.Report.bookingReport') }}" class="nav-link {{ (request()->is('admin/Report/bookingReport')) ?'active':'' }}">
                         <i class="far fa-circle" style="color:#; font-size:13px;"></i>
@@ -222,28 +237,16 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                            <p> تقارير مصروفات السيارات  </p>
                      </a>
                   </li>
-                  <li class="nav-item">
+                 <li class="nav-item">
                      <a href="{{ route('admin.Report.expensesReport') }}" class="nav-link {{ (request()->is('admin/Report/expensesReport*') ) ?'active':'' }}">
                         <i class="far fa-circle" style="color:#; font-size:13px;"></i>
                            <p> تقارير المصروف   </p>
                      </a>
                   </li>
-                  <li class="nav-item">
-                     <a href="{{ route('admin.Report.indexTaxReport') }}" class="nav-link {{ (request()->is('admin/Report/indexTaxReport*') ) ?'active':'' }}">
-                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
-                           <p> تقارير الضرائب   </p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
+                   <li class="nav-item">
                      <a href="{{ route('admin.Report.profitsReport') }}" class="nav-link {{ (request()->is('admin/Report/profitsReport*') ) ?'active':'' }}">
                         <i class="far fa-circle" style="color:#; font-size:13px;"></i>
                            <p> تقارير الارباح و الخسائر   </p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{{ route('admin.Report.indexDebtReport') }}" class="nav-link {{ (request()->is('admin/Report/indexDebtReport*') ) ?'active':'' }}">
-                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
-                           <p> تقارير الديون   </p>
                      </a>
                   </li>
                </ul>
@@ -260,9 +263,15 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                </a>
                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                     <a href="{{ route('admin.adminPanelSetting.index') }}" class="nav-link {{ (request()->is('admin/adminpanelsetting*')) ?'active':'' }}">
+                     <a href="{{ route('admin.adminPanelSetting.index') }}" class="nav-link {{ (request()->is('admin/adminpanelsetting*') and !request()->is('admin/adminpanelsetting_API*'))  ?'active':'' }}">
                        <i class="far fa-circle" style="color:#; font-size:13px;"></i>
                         <p>الضبط العام</p>
+                     </a>
+                  </li>
+                   <li class="nav-item">
+                     <a href="{{ route('admin.adminPanelSetting_API.index_API') }}" class="nav-link {{ (request()->is('admin/adminpanelsetting_API*'))  ?'active':'' }}">
+                       <i class="far fa-circle" style="color:#; font-size:13px;"></i>
+                        <p>Api واتساب</p>
                      </a>
                   </li>
                </ul>

@@ -49,13 +49,13 @@
                 <td> {{ $info->total_price }} </td>
                 <td>
                     <a href="{{ route('contracts.edit', $info->id) }}"
-                        class="btn btn-sm  btn-primary">تعديل</a>
+                        class="btn btn-sm  btn-primary" title="تعديل"><i class="fas fa-edit fa-sm"></i></a>
                     
                     <a href="{{ route('admin.contracts.delete', $info->id) }}"
-                        class="btn are_you_shue btn-sm  btn-danger">حذف</a>
+                        class="btn are_you_shue btn-sm  btn-danger" title="مسح"><i class="fas fa-trash-alt fa-sm"></i></a>
 
                         <a href="{{ route('admin.contracts.invoice', $info->id) }}"
-                            class="btn btn-sm  btn-info">طباعة</a>
+                            class="btn btn-sm  btn-info" title="طباعة"><i class="fas fa-print fa-sm"></i></a>
                 </td>
             </tr>
             @php

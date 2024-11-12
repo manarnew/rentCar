@@ -86,6 +86,34 @@
                          @enderror
                      </div>
                  </div>
+                 <div class="col-md-12">
+                  <div class="form-group">
+                      <label>رقم الهوية </label> 
+                      <input name="identity_number" id="identity_number" class="form-control" value="{{ old('identity_number') }}"
+                          placeholder="رقم الهوية ">
+                      @error('identity_number')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                  </div>
+              </div>
+                 <div class="col-md-6">
+                  <div class="form-group"> 
+                      <label>   الصورة الامامية للهوية</label>
+                      <input type="file" class="form-control "  name="identity_front_image" id="identity_front_image" >
+                      @error('identity_front_image')
+                             <span class="text-danger">{{ $message }}</span>
+                         @enderror
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group"> 
+                          <label>   الصورة الخلفية للهوية</label>
+                          <input type="file" class="form-control "  name="identity_back_image" id="identity_back_image" >
+                          @error('identity_back_image')
+                                 <span class="text-danger">{{ $message }}</span>
+                             @enderror
+                          </div>
+                      </div>
                   <div class="form-group text-center">
                      <button type="submit" class="btn btn-primary btn-sm"> اضافة</button>
                      <a href="{{ route('admin.admins_accounts.index') }}" class="btn btn-sm btn-danger">الغاء</a>    

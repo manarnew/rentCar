@@ -31,30 +31,54 @@
                         @endphp
                         <table id="example2" class="table table-bordered table-hover">
                             <thead class="custom_thead">
+                                <th>#</th>
                                 <th> اسم العميل </th>
                                 <th> رقم الهوية</th>
                                 <th> رقم الحجز</th>
                                 <th> المبلغ</th>
                                 <th> الباقي</th>
-                                <th> نوع الدفع </th>
+                                <th> طريقة الدفع</th>
                                 <th> تاريخ</th>
                                 <th>اجراء</th>
                             </thead>
                             <tbody>
                                 @foreach ($data as $info)
                                     <tr>
+                                        <td>{{ $i++ }}</td>
                                         <td>{{ $info->customer->name }}</td>
                                         <td>{{ $info->customer->identity_number }}</td>
-                                        <td> {{ $info->contract_id }} </td>
-                                        <td> {{ $info->paid_price }} </td>
-                                        <td> {{ $info->remind_price }} </td>
-                                        <td> {{ $info->payment_type }} </td>
-                                        <td> {{ $info->date }} </td>
+                                        <td>{{ $info->contract_id }}</td>
+                                        <td>{{ $info->paid_price }}</td>
+                                        <td>{{ $info->remind_price }}</td>
+                                        <td>{{ $info->payment_type }}</td>
+                                        <td>{{ $info->date }} </td>
                                         <td>
                                             @if(check_permission_sub_menue_actions(51)==true)
                                                 <a href="{{ route('debentures.show', $info->id) }}"
                                                     class="btn btn-sm  btn-info"><i class="fas fa-print" title="طباعة"></i></a>
                                                     @endif
+                                            
+<!--                                                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>-->
+<!--                                                <button class="btn btn-success" id="download"><i class="fas fa-download fa-sm"></i></button>-->
+<!--                                                <script>-->
+<!--                                                    window.onload = function () {-->
+<!--    document.getElementById("download")-->
+<!--        .addEventListener("click", () => {-->
+<!--            const invoice = this.document.getElementById("invoice");-->
+<!--            console.log(invoice);-->
+<!--            console.log(window);-->
+<!--            var opt = {-->
+<!--                margin: 1,-->
+<!--                filename: 'myfile.pdf',-->
+<!--                image: { type: 'jpeg', quality: 0.98 },-->
+<!--                html2canvas: { scale: 2 },-->
+<!--                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }-->
+<!--            };-->
+<!--            html2pdf().from(invoice).set(opt).save();-->
+<!--        })-->
+<!--}-->
+<!--                                                </script>-->
+                                                </td>
                                     </tr>
                                     @php
                                         $i++;

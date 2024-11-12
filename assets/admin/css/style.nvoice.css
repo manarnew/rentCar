@@ -1,44 +1,19 @@
 *{
-    font-family: "Harmattan", sans-serif;
+   
+     /*font-family: "Harmattan", sans-serif;*/
     font-weight:400;
     font-style: normal;
-    font-size:14px;
-    
+    font-size:18px;
 }
 #dairy {
               
-          list-style-type: none;
+list-style-type: none;
     
 }
 hr.new1 {
   border-top: 1px solid #ccc;
 }
-/**/
 
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
-
-/**/
 .thead-light{background-color: #ccc;}
 
 

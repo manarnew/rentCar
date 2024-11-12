@@ -1,17 +1,19 @@
-@php
-$sys =  App\Models\Panel_settings::where('id',1)->first();
-@endphp
+ @php
+ $sys =  App\Models\Panel_settings::where('id',1)->first();
+ @endphp
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta charset="UTF-8" />
 <meta name="theme-color" content="{{ $sys['theme_color'] }}">
 <meta name="msapplication-navbutton-color" content="{{ $sys['theme_color'] }}">
 <meta name="apple-mobile-web-app-status-bar-style" content="{{ $sys['theme_color'] }}">
 <link rel="icon" href="{{ asset('assets/admin/imgs/icon.ico') }}">
-<title>Signature | التوقيع</title>
+<title>التوقيع</title>
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
 <link href="{{ asset('assets/admin/signature/css/jquery.signature.css')}}" rel="stylesheet">
+<link type="text/css" href="{{ asset('assets/admin/css/style.nvoice.css') }}" rel="stylesheet" media="all" />
+
 <style>
 .kbw-signature { width: 400px; height: 200px; }
 </style>
@@ -19,35 +21,35 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ asset('assets/admin/signature/js/jquery.signature.js')}}"></script>
 <!---->
-     <!--logo header-->
-      
-     <!-- Font Awesome Icons -->
-     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
-     <!-- Theme style -->
-     <link rel="stylesheet" href="{{ asset('assets/admin/dist/css/adminlte.min.css')}}">
-     <!-- Google Font: Source Sans Pro -->
-     <link rel="stylesheet" href="{{ asset('assets/admin/css/no-print.css') }}">
-     <link rel="stylesheet" href="{{ asset('assets/admin/fonts/SansPro/SansPro.min.css')}}">
-     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap_rtl-v4.2.1/bootstrap.min.css')}}">
-     <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap_rtl-v4.2.1/custom_rtl.css')}}">
-     <link rel="stylesheet" href="{{ asset('assets/admin/css/mycustomstyle.css')}}">
-     <!--google font-->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
-<link type="text/css" href="{{ asset('assets/admin/css/style.nvoice.css') }}" rel="stylesheet" media="all" />
-<!-- font -->
-      <!--<link rel="preconnect" href="https://fonts.googleapis.com">-->
-      <!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
-      <!--<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">-->
-<!--qr-->
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.3/dist/JsBarcode.all.min.js"></script>
-              <script type="text/javascript">
-				  $(document).ready(function () {
-					JsBarcode(".barcode").init();
-				  });
-              </script>
-              <style type="text/css">
+      <!--logo header-->
+       
+      <!-- Font Awesome Icons -->
+      <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
+      <!-- Theme style -->
+      <link rel="stylesheet" href="{{ asset('assets/admin/dist/css/adminlte.min.css')}}">
+      <!-- Google Font: Source Sans Pro -->
+      <link rel="stylesheet" href="{{ asset('assets/admin/css/no-print.css') }}">
+      <link rel="stylesheet" href="{{ asset('assets/admin/fonts/SansPro/SansPro.min.css')}}">
+      <link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap_rtl-v4.2.1/bootstrap.min.css')}}">
+      <!--<link rel="stylesheet" href="{{ asset('assets/admin/css/bootstrap_rtl-v4.2.1/custom_rtl.css')}}">-->
+      <link rel="stylesheet" href="{{ asset('assets/admin/css/mycustomstyle.css')}}">
+      <!--google font-->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+      @yield('css')
+ <style>
+       *{
+        font-family: "Tajawal", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        }
+        
+#ajax_responce_serarchDiv{
+    overflow-x:auto;
+}
+   </style>
+     <style type="text/css">
               .barcode {
               	float: right;
               }
@@ -70,13 +72,36 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
               .img-thumbnail{max-width:none}
               p{text-align: justify; text-justify: inter-word;}
               </style>
-<!--qr-->
-
-<script src="https://kendo.cdn.telerik.com/2023.1.425/js/jquery.min.js"></script>
-<script src="https://kendo.cdn.telerik.com/2023.1.425/js/kendo.all.min.js"></script>
-    
-<style>
-   #table-id {
+              <!--qr-->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.3/dist/JsBarcode.all.min.js"></script>
+              <script type="text/javascript">
+				  $(document).ready(function () {
+					JsBarcode(".barcode").init();
+				  });
+              </script>
+               <style type="text/css">
+              .barcode {
+              	float: right;
+              }
+			  .qrcode {
+              	float: right;
+              }
+              .img-thumbnail{
+                  padding:4px;
+                  line-height:1.42857143;
+                  background-color:#fff;
+                  border:1px solid #ddd;
+                  border-radius:4px;
+                  -webkit-transition:all .2s ease-in-out;
+                  -o-transition:all .2s ease-in-out;
+                  transition:all .2s ease-in-out;
+                  display:inline-block;
+                  max-width:100%;height:auto
+                  
+              }
+              .img-thumbnail{max-width:none}
+              p{text-align: justify; text-justify: inter-word;}
+                 #table-id {
  /*font-family: "Tajawal", sans-serif;*/
   border-collapse: collapse;
   width: 100%;
@@ -92,28 +117,29 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
 #table-id tr:hover {background-color: #ddd;}
 
 #table-id th {
-  /*padding-top: 12px;*/
-  /*padding-bottom: 12px;*/
   text-align: center;
   background-color: #fff;
   color: #000;
 }
-</style>
+              </style>
+              <!--qr-->
 
-</head>
+<!--<script src="https://kendo.cdn.telerik.com/2023.1.425/js/jquery.min.js"></script>-->
+<script src="https://kendo.cdn.telerik.com/2023.1.425/js/kendo.all.min.js"></script>
+   
+   </head>
 <body style="
 <!--background-image: url('{{ asset('assets/admin/imgs/roiya.net.jpg')}}');-->
 background-repeat: no-repeat;
 background-attachment: fixed;  
 background-size: cover;
   ">
-<center>
+    <!---->
     
-
 <div class="container">
 <table id="table-id">
         <tr>
-          <td style="padding-left: 7px;" dir="ltr" lang="en" style="width: %;">
+          <td style="width:35%; padding-left: 7px;" dir="ltr" lang="en" style="width: %;">
                 @php
              $sys =  App\Models\Panel_settings::where('id',1)->first();
              @endphp
@@ -125,13 +151,13 @@ background-size: cover;
              <b>{{ $sys['address_two'] }}</b>
              
          </td> 
-         <th style="width: %;" style="text-align: center;">
+         <th style="width:30%;" style="text-align: center;">
              <img style="width: 80px" src="{{ asset('assets/admin/uploads').'/'.$sys->photo }}" alt="logo" class="img-responsive" /><br>
             {{$sys->system_name}}<br><b style="background-color: #B6DEDD; color:#000;">
-         RENT A CAR AGREEMENT | عقد تأجير سيارة</b>
+         RENT A CAR AGREEMENT <br> عقد تأجير سيارة</b>
          </th>
          
-         <td style="padding-right: 7px;" dir="rtl" lang="ar">
+         <td style="width:35%; padding-right: 7px;" dir="rtl" lang="ar">
          
              <b>سجل تجاري: {{ $sys['cr_number'] }}</b><br>
              <b>رقم الجوال: {{ $sys['phone_one'] }}</b><br>
@@ -160,36 +186,46 @@ background-size: cover;
         <tr>
           <th style="width: 50%;">
              <table id="table-id" class="stable">
-      <thead>
-      <tr>
-      <th scope="col">{{$data->car->plate_number}} </th>
-      <th scope="col">:رقم اللوحة </th>
-      <th scope="col">{{$data->car->type->name}} </th>
-      <th scope="col">:نوع السيارة </th>
-      </tr>
-      <tr>
-      <th scope="col">{{$data->car->car_color}}</th>
-      <th scope="col">:لون السيارة</th>
-      <th scope="col"><input style="pointer-events:none;" type="checkbox" @if($data->car->full_insurance == 1) checked @endif ></th>
-      <th scope="col">:تأمين شامل</th>
-      </tr>
-      <tr>
-      <th scope="col"><input style="pointer-events:none;" type="checkbox" @if($data->car->third_party == 1) checked @endif ></th>
-      <th scope="col">:طرف ثالث</th>
-      <th scope="col"><input  style="pointer-events:none;" type="checkbox" @if($data->car->full_cover == 1) checked @endif ></th>
-      <th scope="col">:التغطية الشاملة </th>
-      </tr>
-      <tr>
-      <th scope="col"><input  style="pointer-events:none;" type="checkbox" @if($data->car->UAE == 1) checked @endif ></th>
-      <th scope="col">:الإمارات العربية</th>
-      <th scope="col"><input  style="pointer-events:none;" type="checkbox" @if($data->car->oman == 1) checked @endif ></th>
-      <th scope="col">:داخل سلطنة عمان</th>
-      </tr>
-      <tr>
-      <th colspan="2" scope="col">{{$data->car->insurance}}</th>
-      <th colspan="2" scope="col">:التأمين</th>
-      </tr>
+     <!---->
+     <thead>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">Car type:</th>
+             <th>{{$data->car->type->name}}</th>
+             <th style="text-align: right; padding-right: 7px;">:نوع السيارة</th>
+         </tr>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">Plate Number:</th>
+             <th>{{$data->car->plate_number}}</th>
+             <th style="text-align: right; padding-right: 7px;">:رقم اللوحة</th>
+         </tr>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">Car color:</th>
+             <th>{{$data->car->car_color}}</th>
+             <th style="text-align: right; padding-right: 7px;">:لون السيارة</th>
+         </tr>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">Full Insurance:</th>
+             <th><input style="pointer-events:none;" type="checkbox" @if($data->car->full_insurance == 1) checked @endif ></th>
+             <th style="text-align: right; padding-right: 7px;">:تأمين شامل</th>
+         </tr>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">Third party:</th>
+             <th><input style="pointer-events:none;" type="checkbox" @if($data->car->third_party == 1) checked @endif ></th>
+             <th style="text-align: right; padding-right: 7px;">:طرف ثالث</th>
+         </tr>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">United Arab Emirates:</th>
+             <th><input  style="pointer-events:none;" type="checkbox" @if($data->car->UAE == 1) checked @endif ></th>
+             <th style="text-align: right; padding-right: 7px;">:الإمارات العربية</th>
+         </tr>
+         <tr>
+             <th style="text-align: left; padding-left: 7px;">Sultanate of Oman:</th>
+             <th><input  style="pointer-events:none;" type="checkbox" @if($data->car->oman == 1) checked @endif ></th>
+             <th style="text-align: right; padding-right: 7px;">:داخل سلطنة عمان</th>
+         </tr>
+    
      </thead>
+     <!---->
      </table>
      
       </th>
@@ -204,97 +240,95 @@ background-size: cover;
       </tr>
       <tr>
       <th scope="col">{{$data->customer->address}}</th>
-      <th scope="col">:العنوان</th>
+      <th scope="col">:عنوان السكن</th>
       <th scope="col"> {{$data->customer->phone}}</th>
-      <th scope="col">:الهاتف</th>
+      <th scope="col">:رقم الجوال</th>
       </tr>
       <tr>
-      <th scope="col">{{$data->customer->word_address}}</th>
+      <th style="background-color: #fff; color:000;" scope="col">{{$data->customer->word_address}}</th>
       <th scope="col">:عنوان العمل</th>
-      <th scope="col">{{$data->customer->driver_license_number}}</th>
-      <th scope="col">:رخصة القيادة</th>
+      <th scope="col">{{$data->customer->nationality}}</th>
+      <th scope="col">:الجنسية</th>
       </tr>
       <tr>
-      <th scope="col">{{$data->customer->driver_license_release_date}}</th>
-      <th scope="col">:تاريخ الإصدار</th>
-      <th scope="col">{{$data->customer->driver_license_release_date}}</th>
-      <th scope="col">تاريخ الإنتهاء</th>
+      <th style="background-color: #ccc; color:000;" scope="col">{{$data->customer->driver_license_release_date}}</th>
+      <th style="background-color: #ccc; color:000;" scope="col">:تاريخ الإصدار</th>
+      <th style="background-color: #ccc; color:000;" scope="col">{{$data->customer->driver_license_number}}</th>
+      <th style="background-color: #ccc; color:000;" scope="col">:رقم رخصة القيادة</th>
       </tr>
       <tr>
-      <th colspan="2" scope="col">{{$data->customer->driver_license_address}}</th>
-      <th colspan="2" scope="col">:مكان الإصدار</th>
+      <th style="background-color: #ccc; color:000;" scope="col">{{$data->customer->driver_license_release_date}}</th>
+      <th style="background-color: #ccc; color:000;" scope="col">:تاريخ الإنتهاء</th>
+      <th style="background-color: #ccc; color:000;" scope="col">{{$data->customer->driver_license_address}}</th>
+      <th style="background-color: #ccc; color:000;" scope="col">:مكان الإصدار</th>
       </tr>
+      <tr>
+      <th colspan="2" scope="col">{{$data->customer->identity_number}}</th>
+      <th colspan="2" scope="col">:رقم الهوية</th>
+      </tr>
+      <th scope="col">{{$data->customer->identity_address}}</th>
+      <th scope="col">:مكان الإصدار </th>
+      <th scope="col">{{$data->customer->identity_end_date}}</th>
+      <th scope="col">:تاريخ الإنتهاء </th>
      </thead>
      </table>
      </th>
         </tr>
       </tbody>
     </table>
-    <table id="table-id">
-      <thead class="thead-light">
-        <tr>
-          <th style="background-color: {{ $sys['theme_color'] }}; color:#fff; width: 50%;"><b>بيانات جواز السفر / البطاقة الشخصية</b></th>
-          <th style="background-color: {{ $sys['theme_color'] }}; color:#fff; width: 50%;"><b>سعر الإجار</b></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>
-              <table id="table-id" class="stable">
-      <thead>
-      <tr>
-      <th scope="col">{{$data->customer->identity_number}}</th>
-      <th scope="col">:رقم الهوية</th>
-      <th scope="col">{{$data->customer->identity_address}}</th>
-      <th scope="col">:مكان الإصدار </th>
-      <th scope="col">{{$data->customer->identity_end_date}}</th>
-      <th scope="col">:تاريخ الإنتهاء </th>
-      </tr>
-      </thead>
-     </table>
-     
-        </th>
-        <th>
-               <table id="table-id" class="stable">
-      <thead>
-      <tr>
-      <th scope="col">{{ $sys['currency_type'] }} 
-        
     
-        @if ($data->contract_type==3)
-        {{$data->car->weekly_rent_price}} : الشهري
-        @elseif ($data->contract_type==2)
-        {{$data->car->monthly_rent_price}} : الأسبوعي 
-        @else
-        {{$data->car->daily_rent_price}} : اليومي 
-        @endif
-      </th>
-      </tr>
-      </thead>
-     </table>
-            </th>
-        </tr>
-      </tbody>
-    </table>
     <table id="table-id">
         <thead class="thead-light">
           <tr>
             <th class="text-right" style="background-color: #fff; width: 50%;">
-                <div class="d-grid gap-2 col-6 mx-auto" style="background-color: {{ $sys['theme_color'] }}; color:#fff; width: 100%;">حالة المركبة </div>
-             <br>
+             <!--   <div class="d-grid gap-2 col-6 mx-auto" style="background-color: {{ $sys['theme_color'] }}; color:#fff; width: 100%;">حالة المركبة </div>-->
+             <!--<br>-->
                <img style="width: 310px; height:200px" src="{{ asset('assets/admin/imgs/img66.jpg') }}" alt="logo-car" class="img-responsive" /> 
-                      <div style="background-color: #F8D7DA; color:red;" class="alert alert-danger" role="alert">
-                      <div style="font-size:12px; text-align: right;">
-                           يلتزم المستأجر بدفع غرامة 20 ريالفي حالة التدخين داخل المركبة
+              
+               <table style="border: none; border: 0px;">
+                   <thead style="border: none; border: 0px;">
+                       <tr style="border: none; border: 0px;">
+                           <th style="font-size:12px; color:red; border: none; border: 0px;">
+                               حالة السيارة بعد
+                           </th>
+                           <th style="font-size:12px; color:red; border: none; border: 0px;">
+                               حالة السيارة قبل
+                           </th>
+                       </tr>
+                   </thead>
+               </table>
+               <hr>
+               <!---->
+                      <div style="background-color: #fff; color:red;" class="alert alert-dangers" role="alert">
+                      <div style="font-size:12px; text-align: center;">
+                           يلتزم المستأجر بدفع غرامة 20 ريال في حالة التدخين داخل المركبة
                       </div>
-                     <div style="font-size:12px; text-align: left;">
+                     <div style="font-size:12px; text-align: center;">
                          The renter is obligated to pay a fine of 20 riyals in the event of smoking inside the vehicle
                      </div>
                      </div>
-            </th>
-            <th style="width: 50%;">
-                <table id="table-id">
-                    <thead>
+                    </th>
+                          <th style="width: 50%;">
+                              <table id="table-id">
+                                  <thead>
+                                  <tr>
+                                       <th>
+                                          Rental price  
+                                      </th>
+                     <th colspan="" scope="col">
+                     {{ $sys['currency_type'] }} 
+                      @if ($data->contract_type==3)
+                      {{$data->car->weekly_rent_price}} : الشهري
+                      @elseif ($data->contract_type==2)
+                      {{$data->car->monthly_rent_price}} : الأسبوعي 
+                      @else
+                      {{$data->car->daily_rent_price}} : اليومي 
+                      @endif
+                    </th>
+                     <th>
+                             سعر الإيجار
+                          </th>
+                    </tr>
                       <tr>
                         <th style="background-color: {{ $sys['theme_color'] }}; color:#fff;">Rate</th>
                         <th style="background-color: {{ $sys['theme_color'] }}; color:#fff;">مبلغ</th>
@@ -303,92 +337,92 @@ background-size: cover;
                     </thead>
                     <tbody style="background-color: #fff; color:#000;">
                         <tr style="border-top: 1px solid #ccc;">
-                            <th>Advance payment</th>
+                            <th style="text-align: left; padding-left: 7px;">Advance payment</th>
                             <th>
                               {{ $sys['currency_type'] }} {{$data->pre_paid_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               دفعة مقدمة
                             </th>
                           </tr>
                           <tr>
-                              <th>Vatin</th>
+                              <th style="text-align: left; padding-left: 7px;">Vatin</th>
                             <th>
                              {{ $sys['currency_type'] }} {{$data->tax_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               الضريبة
                             </th>
                           </tr>
                           <tr>
-                              <th>Excess KM</th>
+                              <th style="text-align: left; padding-left: 7px;">Excess KM</th>
                             <th>
                             {{ $sys['currency_type'] }} {{$data->excess_km_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               زيادة الكيلو
                             </th>
                           </tr>
                           <tr>
-                              <th>Petrol</th>
+                              <th style="text-align: left; padding-left: 7px;">Petrol</th>
                             <th>
                               {{ $sys['currency_type'] }} {{$data->patrol_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               بترول
                             </th>
                           </tr>
                           <tr>
-                              <th>Washing</th>
+                              <th style="text-align: left; padding-left: 7px;">Washing</th>
                             <th>
                               {{ $sys['currency_type'] }} {{$data->washing_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               غسيل
                             </th>
                           </tr>
                           <tr>
-                              <th>Insurance</th>
+                              <th style="text-align: left; padding-left: 7px;">Insurance</th>
                             <th>
                              {{ $sys['currency_type'] }} {{$data->insurance_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               التأمين
                             </th>
                           </tr>
                           <tr>
-                              <th>penalty</th>
+                              <th style="text-align: left; padding-left: 7px;">penalty</th>
                             <th>
                              {{ $sys['currency_type'] }} {{$data->penalty_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               غرامة
                             </th>
                           </tr>
                           <tr>
-                              <th>Amount received</th>
+                              <th style="text-align: left; padding-left: 7px;">Amount received</th>
                             <th>
                               {{ $sys['currency_type'] }} {{$data->paid_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               المبلغ المستلم
                             </th>
                           </tr>
                           <tr>
-                            <th>Balance</th>
+                            <th style="text-align: left; padding-left: 7px;">Balance</th>
                             <th>
                               {{ $sys['currency_type'] }} {{$data->remind_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               الباقي
                             </th>
                           </tr>
                           <tr>
-                            <th>Total</th>
+                            <th style="text-align: left; padding-left: 7px;">Total</th>
                             <th>
                              {{ $sys['currency_type'] }} {{$data->total_price}}
                             </th>
-                            <th>
+                            <th style="text-align: right; padding-right: 7px;">
                               المجموع
                             </th>
                           </tr>
@@ -397,13 +431,13 @@ background-size: cover;
             </th>
           </tr>
           <tr>
-              <th style="font-size:12px; text-align: right;">Note / ملاحظات</th>
+              <th style="font-size:12px; text-align: right; vertical-align: top;">Note / ملاحظات</th>
               <th>
-                  <div style="background-color: #F8D7DA; color:red;" class="alert alert-danger" role="alert">
-                      <div style="font-size:12px; text-align: right;">
+                  <div style="background-color: #fff; color:red;" class="alert alert-dangers" role="alert">
+                      <div style="font-size:12px; text-align: center;">
                            تنبيه هام: إن عدم قيامك بسداد قيمة الإيجار والتأخير في السداد يحق لشركة باغلاق المركبة وتحملك مسؤولية قيمة الإيجار لحين إرجاع المركبة للمكتب
                       </div>
-                     <div style="font-size:12px; text-align: left;">Important warning: If you fail to pay the rental value and delay in payment, the
+                     <div style="font-size:12px; text-align: center;">Important warning: If you fail to pay the rental value and delay in payment, the
                       company has the right to close the vehicle and hold you responsible for the
                       rental value until the vehicle is returned to the office .</div>
                      </div>
@@ -446,24 +480,26 @@ background-size: cover;
        <table id="table-id" class="table table-bordered">
       <tbody>
         <tr>
-          <th style="width: %;">
-              
-             <div dir="ltr"><img style="width: 90px" src="{{ asset('assets/admin/uploads').'/'.$sys->mark_image}}" class="img-responsive" /></div>
-          </th>
-          
-          <th>
-              <p>Signature of Rented | توقيع المستأجر</p>
-              <div style="padding: -7px; margin-bottom: 0px"><img style="width: 100px" src="{{ asset('').'/'.$data->signature_image}}" class="img-responsive" /></div>
-          </th>
-          <th style="width: %;">
-              <!--qr-->
-            <div style="padding-right: 7px;">
-             <img style="float: right;" class="img-thumbnail qrcode" src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data={{$data->id}}" />
-            </div>	
-          </th>
-        </tr>
-      </tbody>
-    </table> 
+        <th>
+                  <!--signature | التوقيع-->
+                  <div class="img-thumbnaill">
+                  <form method="POST" action="{{ route('admin.signature_image.store_signature_image') }}" enctype="multipart/form-data">
+                  @csrf
+                  <input type="hidden" name="id" value="{{$id}}">
+                  <div id="sig"></div>
+                  <textarea name="signed" id="signature64" style="display: none"></textarea><br><br>
+                  <button type="submint" class="btn btn-primary">اضافة</button>
+                  <button type="button" class="btn btn-danger" id="clear">مسح</button>
+                  </form>
+                  </div>
+                 <!---->
+             
+              </th>
+
+ </tr>
+          </tbody>
+          </table>
+         
     <script>
             $(document).ready(function () {
                 $("#gudbrands").kendoBarcode({
@@ -484,7 +520,7 @@ background-size: cover;
       </thead>
     </table>
     <center>
-        <div style="background-color: #F8D7DA; color:red;" class="alert alert-danger" role="alert">
+        <div style="background-color: #F8D7DA; color:red;" class="alert alert-dangers" role="alert">
                       <div style="">
 الايجار الشهري يعني 30 يوم فقط
                       </div>
@@ -493,18 +529,18 @@ background-size: cover;
 </div>
 </div>
     </center>
-    <center>
+    <!--<center>-->
          <!--<b>مرجع</b>-->
      
-         <div class="text-left" id="dairy">
-           <span class="txt-left" id="gudbrands"></span>
-         </div>
-         </center>
+    <!--     <div class="text-left" id="dairy">-->
+    <!--       <span class="txt-left" id="gudbrands"></span>-->
+    <!--     </div>-->
+    <!--     </center>-->
   </div> 
   
       <table id="table-id" class="table table-bordered">
           
-      <thead style="background-color:#ccc; color:#000;">
+      <thead style="padding-top: 6px; background-color:#ccc; color:#000;">
         <tr>
           <th style="background-color: {{ $sys['theme_color'] }}; color:#fff; width: 50%;">Terms & Conditions</th>
           <th style="background-color: {{ $sys['theme_color'] }}; color:#fff; width: 50%;">شروط عقد الايجار</th>
@@ -515,7 +551,7 @@ background-size: cover;
           <td dir="ltr" lang="en" style="padding-left: 6px;">
                      
 
-                      <p style="width: 100%; font-size: 7.2px; text-align: justify; text-justify: inter-word;">
+                      <p style="width: 100%; font-size: 10.4px; text-align: justify; text-justify: inter-word;">
                         
                            @php
                       echo nl2br($sys->en_contract) 
@@ -527,7 +563,7 @@ background-size: cover;
           <td dir="rtl" lang="ar" style="padding-right: 6px;">
               
                 
-                  <p style="width: 100%; font-size: 9px; text-align: justify; text-justify: inter-word;">
+                  <p style="width: 100%; font-size: 13.1px; text-align: justify; text-justify: inter-word;">
                      
                           @php
                       echo nl2br($sys->ar_contract) 
@@ -541,6 +577,26 @@ background-size: cover;
 
 </div>
 
+  <script>
+	    var sig = $('#sig').signature({
+            syncField: '#signature64',
+             syncFormat: 'PNG'
+        });
+    $('#clear').click(function(e) {
+        e.preventDefault();
+        sig.signature('clear');
+        $("#signature64").val('');
+    });
+</script>
+<!--clear-->
+<script>
+var input = document.querySelector('#clear');
+var textarea = document.querySelector('#signature64');
+
+input.addEventListener('click', function () {
+    textarea.value = '';
+}, false);
+</script>
 <script src="https://cdn.jsdelivr.net/jsbarcode/3.5.8/JsBarcode.all.min.js" type="5b653696e8b6017cda142c4d-text/javascript"></script>
 <script type="5b653696e8b6017cda142c4d-text/javascript">
     $(document).ready(function () {
@@ -556,27 +612,45 @@ background-size: cover;
     }
 </style>
 <script type="5b653696e8b6017cda142c4d-text/javascript">
-     window.onload = function() { window.print(); } 
+    //  window.onload = function() { window.print(); } 
 </script>
 <script src="https://yitistore.matjrah.store/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="5b653696e8b6017cda142c4d-|49" defer=""></script>
-<div class="img-thumbnail">
-  <form method="POST" action="{{ route('admin.signature_image.store_signature_image') }}" enctype="multipart/form-data">
-    @csrf
-    <input type="hidden" name="id" value="{{$id}}">
-    <div id="sig"></div>
-    <textarea name="signed" id="signature64" style="display: none"></textarea><br><br>
-    <button type="submint" class="btn btn-primary">اضافة</button>
-  </form>
-</div>
-  <script>
-	    var sig = $('#sig').signature({
-            syncField: '#signature64',
-             syncFormat: 'PNG'
-        });
-    $('#clear').click(function(e) {
-        e.preventDefault();
-        sig.signature('clear');
-        $("#signature64").val('');
-    });
+<script>
+    function Solve(val) {
+   var v = document.getElementById('res');
+   v.value += val;
+}
+function Result() {
+   var num1 = document.getElementById('res').value;
+   try {
+      var num2 = eval(num1.replace('x', '*'));
+      document.getElementById('res').value = num2;
+   } catch {
+      document.getElementById('res').value = 'Error';
+   }
+}
+function Clear() {
+   var inp = document.getElementById('res');
+   inp.value = '';
+}
+function Back() {
+   var ev = document.getElementById('res');
+   ev.value = ev.value.slice(0, -1);
+}
+document.addEventListener('keydown', function (event) {
+   const key = event.key;
+   const validKeys = '0123456789+-*/.%';
+   if (validKeys.includes(key)) {
+      Solve(key === '*' ? 'x' : key);
+   } else if (key === 'Enter') {
+      Result();
+   } else if (key === 'Backspace') {
+      Back();
+   } else if (key.toLowerCase() === 'c') {
+      Clear();
+   }
+});
+</script>
+
 </body>
 </html>

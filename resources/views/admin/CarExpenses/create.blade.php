@@ -45,21 +45,21 @@
                             <input name="type_id" id="type_id" class="form-control" readonly>
                         </div>
                     </div>
+                    <!--<div class="col-md-6">-->
+                    <!--    <div class="form-group">-->
+                    <!--        <label>  البيان  </label>-->
+                    <!--        <input name="supplier" id="supplier" class="form-control" value="{{ old('supplier') }}"-->
+                    <!--            placeholder="البيان">-->
+                    <!--        @error('supplier')-->
+                    <!--            <span class="text-danger">{{ $message }}</span>-->
+                    <!--        @enderror-->
+                    <!--    </div>-->
+                    <!--</div>-->
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>  المورد  </label>
-                            <input name="supplier" id="supplier" class="form-control" value="{{ old('supplier') }}"
-                                placeholder="المورد">
-                            @error('supplier')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label> سعر  المصروف  </label>
+                            <label>المبلع</label>
                             <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}"
-                                placeholder=" سعر  المصروف ">
+                                placeholder="المبلع">
                             @error('price')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -94,7 +94,16 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>  البيان  </label>
+                            <textarea name="supplier" id="supplier" class="form-control" value="{{ old('supplier') }}" cols="100" rows="5"></textarea>
+                            @error('supplier')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                            <label> ملاحظات</label> 
                                <textarea name="note" class="form-control " id="note" cols="100" rows="5"></textarea>

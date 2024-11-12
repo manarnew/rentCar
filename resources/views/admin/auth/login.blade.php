@@ -1,11 +1,14 @@
+ @php
+ $sys =  App\Models\PanelSetting::where('id',1)->first();
+ @endphp
 <!DOCTYPE html>
-<html>
+<html lang="en">
    <head>
       <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="theme-color" content="#A52A2A">
-      <meta name="msapplication-navbutton-color" content="#A52A2A">
-      <meta name="apple-mobile-web-app-status-bar-style" content="#A52A2A">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <meta name="theme-color" content="{{ $sys['theme_color'] }}" media="(prefers-color-scheme: light)">
+      <!--<meta name="theme-color" content="#0b3e05" media="(prefers-color-scheme: dark)">-->
       <title>تسجيل الدخول</title>
       <!--icon header-->
       <link rel="icon" href="{{ asset('assets/admin/imgs/icon.ico') }}">
@@ -84,7 +87,8 @@ table{
 
       </style>
    </head>
-   <body class="hold-transition login-page" style="background-image: url({{ asset('assets/admin/imgs/login.jpg') }}) ;
+   <body class="hold-transition login-page" style="
+   background-image: url({{ asset('assets/admin/imgs/backgruond.webp') }}) ;
    background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
        
       <div class="col-lg-3 col-xs-6 text-center login-box">
@@ -92,14 +96,14 @@ table{
          <!-- /.login-logo -->
          <center>
              @php
-$sys =  App\Models\Panel_settings::where('id',1)->first();
+$sys =  App\Models\PanelSetting::where('id',1)->first();
 @endphp
    <!-- Brand Logo -->
    <a href="{{ route('admin.dashboard') }}" class="brand-link">
-          <img class="brand-imaged img-circle elevation-3" style="opacity: .8" src="{{ asset('assets/admin/uploads').'/'.$sys->photo }}"   width="100" height="100" alt="لوجو الشركة"><br>      
-   <span class="brand-text font-weight-light" > 
-      {{$sys->system_name}} 
-   </span>
+          <img class="brand-images img-circles eelevation-3" style="opacity: .8" src="{{ asset('assets/admin/uploads').'/'.$sys->photo }}"   width="250px" height="" alt="لوجو الشركة"><br>      
+   <br><span class="brand-text font-weight-light" > 
+<b style="font-weight: bold; padding:10px; background-color:#; color:#2E7E7C;">{{$sys->system_name}}</b>
+</span>
    </a> 
    
          </center>
@@ -144,6 +148,10 @@ $sys =  App\Models\Panel_settings::where('id',1)->first();
                      </div>
                      <!-- /.col -->
                   </div>
+                  <!--<center>-->
+                  <!--   <p>username: admin</p>-->
+                  <!--   <p>password: 12345678</p>-->
+                  <!--  </center>-->
                </form>
             </div>
             <!-- /.login-card-body -->

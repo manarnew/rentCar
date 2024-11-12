@@ -37,9 +37,9 @@
                                 @error('contract_type')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                <input type="hidden" value="{{old('contract_type_price', $data['contract_type_price'])}}" name="contract_type_price" id="contract_type_price">
-
                             </div>
+                                                            <input type="hidden" value="{{old('contract_type_price', $data['contract_type_price'])}}" name="contract_type_price" id="contract_type_price">
+
                         </div>
     
                         <div class="col-md-4">
@@ -364,7 +364,7 @@ function recCulcForexcessKm(){
             var contract_type = $("#contract_type").val();
             var contract_number = $("#contract_number").val();
             if (contract_number != "" && contract_type != "") {
-                if (contract_type == 1) {
+                  if (contract_type == 1) {
                     $("#contract_price").val(contract_number * {{ $car_id->daily_rent_price }})
                     $("#contract_type_price").val({{ $car_id->daily_rent_price }})
                 } else if (contract_type == 2) {
@@ -383,7 +383,7 @@ function recCulcForexcessKm(){
             var contract_type = $("#contract_type").val();
             var contract_number = $("#contract_number").val();
             if (contract_number != "" && contract_type != "") {
-                if (contract_type == 1) {
+                 if (contract_type == 1) {
                     $("#contract_price").val(contract_number * {{ $car_id->daily_rent_price }})
                     $("#contract_type_price").val({{ $car_id->daily_rent_price }})
                 } else if (contract_type == 2) {

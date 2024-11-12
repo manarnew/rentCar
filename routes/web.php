@@ -19,5 +19,5 @@ Route::get('/', function () {
 });
 Route::post('/signature_image/create_signature_image', [ContractsController::class, 'create_signature_image'])->name('admin.signature_image.create_signature_image');
 Route::post('/signature_image/store_signature_image', [ContractsController::class, 'store_signature_image'])->name('admin.signature_image.store_signature_image');
-Route::get('/customer/ajax_search_genral/{id}', [CustomerController::class, 'ajax_search_genral_get'])->name('admin.customer.ajax_search_genral_get');
+Route::get('/contracts/whatsapp/{id}', [CustomerController::class, 'ajax_search_genral_get'])->name('admin.customer.ajax_search_genral_get');
 Route::get('/customer/send/{id}', [CustomerController::class, 'send'])->name('admin.customer.send');

@@ -62,8 +62,8 @@
                <div class="form-group">
                   <label>   هل تريد تحديث كلمة المرور</label>
                   <select name="checkForupdatePassword" id="checkForupdatePassword" class="form-control">
-                     <option {{ old('checkForupdatePassword',$data['checkForupdatePassword'])==0 ? 'selected' : ''}}  value="0"> لا </option>
-                     <option {{  old('checkForupdatePassword',$data['checkForupdatePassword'])==1 ? 'selected' : ''}}   value="1"> نعم </option>
+                     <option {{ old('checkForupdatePassword',$data['checkForupdatePassword'])==0 ? 'selected' : ''}}  value="0"> لا</option>
+                     <option {{  old('checkForupdatePassword',$data['checkForupdatePassword'])==1 ? 'selected' : ''}}   value="1"> نعم</option>
                   </select>
                   @error('checkForupdatePassword')
                   <span class="text-danger">{{ $message }}</span>
@@ -90,6 +90,16 @@
                   @enderror
                </div>
                <div class="col-md-12">
+                  <div class="form-group">
+                      <label>رقم الهوية </label>
+                      <input name="identity_number" id="identity_number" class="form-control"
+                          value="{{ old('identity_number', $data['identity_number']) }}" placeholder="رقم الهوية ">
+                      @error('identity_number')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                  </div>
+              </div>
+               <div class="col-md-12">
                   <div class="form-group"  >
                       <label>   الصورة   </label>
                      <div class="image">
@@ -101,6 +111,37 @@
                   <div id="old_image">
                   </div>
                </div>
+               <div class="col-md-6">
+                  <div class="form-group">
+                      <label> الصورة الامامية للهوية</label>
+                      <div class="image">
+                          <img class="custom_img"
+                              src="{{ asset('assets/admin/uploads') . '/' . $data['identity_front_image'] }}">
+                          <button type="button" class="btn btn-sm btn-danger" id="identity_front_image_upload">تغير
+                              الصورة</button>
+                          <button type="button" class="btn btn-sm btn-danger" style="display: none;"
+                              id="cancel_identity_front_image_upload"> الغاء</button>
+                      </div>
+                  </div>
+                  <div id="old_identity_front_image">
+                  </div>
+              </div>
+             
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label> الصورة الخلفية للهوية</label>
+                      <div class="image">
+                          <img class="custom_img"
+                              src="{{ asset('assets/admin/uploads') . '/' . $data['identity_back_image'] }}">
+                          <button type="button" class="btn btn-sm btn-danger" id="identity_back_image_upload">تغير
+                              الصورة</button>
+                          <button type="button" class="btn btn-sm btn-danger" style="display: none;"
+                              id="cancel_identity_back_image_upload"> الغاء</button>
+                      </div>
+                  </div>
+                  <div id="old_identity_back_image">
+                  </div>
+              </div>
                <div class="form-group text-center">
                   <button type="submit" class="btn btn-primary btn-sm">حفظ التعديلات</button>
                   <a href="{{ route('admin.admins_accounts.index') }}" class="btn btn-sm btn-danger">الغاء</a>    
@@ -118,6 +159,59 @@
 @endsection
 @section('script')
 <script>
+ $(document).on('click', '#image_upload', function(e) {   
+      e.preventDefault();
+      if (!$("#image").length) {
+          $("#image_upload").hide();
+          $("#cancel_image_upload").show();
+          $("#old_image").html('<br><input type="file" onchange="readURL(this)"  name="image" id="image" > ');
+      }
+      return false;
+  });
+  $(document).on('click', '#cancel_image_upload', function(e) {
+      e.preventDefault();
+      $("#image_upload").show();
+      $("#cancel_image_upload").hide();
+      $("#old_image").html('');
+      return false;
+  });
+  $(document).on('click', '#identity_front_image_upload', function(e) {
+            e.preventDefault();
+            if (!$("#image").length) {
+                $("#identity_front_image_upload").hide();
+                $("#cancel_identity_front_image_upload").show();
+                $("#old_identity_front_image").html(
+                    '<br><input type="file" onchange="readURL(this)"  name="identity_front_image" id="identity_front_image" > '
+                    );
+            }
+            return false;
+        });
+        $(document).on('click', '#cancel_identity_front_image_upload', function(e) {
+            e.preventDefault();
+            $("#identity_front_image_upload").show();
+            $("#cancel_identity_front_image_upload").hide();
+            $("#old_identity_front_image").html('');
+            return false;
+        });
+
+        $(document).on('click', '#identity_back_image_upload', function(e) {
+            e.preventDefault();
+            if (!$("#image").length) {
+                $("#identity_back_image_upload").hide();
+                $("#cancel_identity_back_image_upload").show();
+                $("#old_identity_back_image").html(
+                    '<br><input type="file" onchange="readURL(this)"  name="identity_back_image" id="identity_back_image" > '
+                    );
+            }
+            return false;
+        });
+        $(document).on('click', '#cancel_identity_back_image_upload', function(e) {
+            e.preventDefault();
+            $("#identity_back_image_upload").show();
+            $("#cancel_identity_back_image_upload").hide();
+            $("#old_identity_back_image").html('');
+            return false;
+        });
 document.addEventListener('DOMContentLoaded', function() {
   var checkForupdatePassword = document.getElementById('checkForupdatePassword');
   var PasswordDIV = document.getElementById('PasswordDIV');
@@ -137,25 +231,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-</script>
-<script>
-   
- $(document).on('click', '#image_upload', function(e) {   
-      e.preventDefault();
-      if (!$("#image").length) {
-          $("#image_upload").hide();
-          $("#cancel_image_upload").show();
-          $("#old_image").html('<br><input type="file" onchange="readURL(this)"  name="image" id="image" > ');
-      }
-      return false;
-  });
-  $(document).on('click', '#cancel_image_upload', function(e) {
-      e.preventDefault();
-      $("#image_upload").show();
-      $("#cancel_image_upload").hide();
-      $("#old_image").html('');
-      return false;
-  });
- 
 </script>
 @endsection

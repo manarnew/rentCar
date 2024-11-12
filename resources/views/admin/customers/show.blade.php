@@ -21,7 +21,7 @@
             <div class="row">
                 <table id="example2" class="table table-bordered table-hover">
                     <tr>
-                        <td>اسم الصنف</td>
+                        <td>اسم العميل</td>
                         <td colspan="2">
                             {{ $data['name'] }}
                         </td>
@@ -39,7 +39,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>تاريخ اصدار  الهوية</td>
+                        <td>تاريخ اصدار لهوية</td>
                         <td colspan="2">
                             {{ $data['identity_release_date'] }}
                         </td>
@@ -51,7 +51,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>مكان  الهوية</td>
+                        <td>مكان  إصدار الهوية</td>
                         <td colspan="2">
                             {{ $data['identity_address'] }}
                         </td>
@@ -81,7 +81,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>  عنوان  </td>
+                        <td>  عنوان السكن  </td>
                         <td colspan="2">
                             {{ $data['address'] }}
                         </td>

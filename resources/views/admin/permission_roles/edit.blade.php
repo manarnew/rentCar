@@ -1,60 +1,55 @@
 @extends('layouts.admin')
-
 @section('title')
-{{ __('permission_roles.title') }}
+الصلاحيات
 @endsection
-
 @section('contentheader')
-{{ __('permission_roles.contentheader') }}
+الأدوار
 @endsection
-
 @section('contentheaderlink')
-<a href="{{ route('admin.permission_roles.index') }}">{{ __('permission_roles.contentheaderlink') }}</a>
+<a href="{{ route('admin.permission_roles.index') }}">  أدوار المستخدمين </a>
 @endsection
-
 @section('contentheaderactive')
-{{ __('permission_roles.contentheaderactive') }}
+تعديل
 @endsection
-
 @section('content')
 <div class="row">
    <div class="col-12">
       <div class="card">
          <div class="card-header">
-            <h3 class="card-title card_title_center">{{ __('permission_roles.edit_role') }}</h3>
+            <h3 class="card-title card_title_center">تعديل بيانات   دور صلاحية</h3>
          </div>
+         <!-- /.card-header -->
          <div class="card-body">
             @if (@isset($data) && !@empty($data))
-            <form action="{{ route('admin.permission_roles.update', $data['id']) }}" method="post">
+            <form action="{{ route('admin.permission_roles.update',$data['id']) }}" method="post" >
                @csrf
                <div class="form-group">
-                  <label>{{ __('permission_roles.role_name') }}</label>
-                  <input name="name" id="name" class="form-control" value="{{ old('name', $data['name']) }}">
+                  <label>اسم  الدور</label>
+                  <input name="name" id="name" class="form-control" value="{{ old('name',$data['name']) }}"   >
                   @error('name')
                   <span class="text-danger">{{ $message }}</span>
                   @enderror
                </div>
-
+             
                <div class="form-group">
-                  <label>{{ __('permission_roles.activation_status') }}</label>
+                  <label>  حالة التفعيل</label>
                   <select name="active" id="active" class="form-control">
-                     <option value="">{{ __('permission_roles.choose_status') }}</option>
-                     <option {{ old('active', $data['active']) == 1 ? 'selected' : '' }} value="1">{{ __('permission_roles.yes') }}</option>
-                     <option {{ old('active', $data['active']) == 0 ? 'selected' : '' }} value="0">{{ __('permission_roles.no') }}</option>
+                     <option value="">اختر الحالة</option>
+                     <option {{  old('active',$data['active'])==1 ? 'selected' : ''}}   value="1"> نعم</option>
+                     <option {{ old('active',$data['active'])==0 ? 'selected' : ''}}  value="0"> لا</option>
                   </select>
                   @error('active')
                   <span class="text-danger">{{ $message }}</span>
                   @enderror
                </div>
-
                <div class="form-group text-center">
-                  <button type="submit" class="btn btn-primary btn-sm">{{ __('permission_roles.save_changes') }}</button>
-                  <a href="{{ route('admin.permission_roles.index') }}" class="btn btn-sm btn-danger">{{ __('permission_roles.cancel') }}</a>    
+                  <button type="submit" class="btn btn-primary btn-sm">حفظ التعديلات</button>
+                  <a href="{{ route('admin.permission_roles.index') }}" class="btn btn-sm btn-danger">الغاء</a>    
                </div>
             </form>
             @else
             <div class="alert alert-danger">
-               {{ __('permission_roles.no_data') }}
+               عفوا لاتوجد بيانات لعرضها !!
             </div>
             @endif
          </div>

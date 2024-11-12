@@ -57,7 +57,7 @@
                      {{ $time }}
                      {{ $newDateTimeType }}
                      بواسطة 
-                     {{ $data['added_by_admin'] }}
+                     {{ $data->creator->name }}
                   </td>
                </tr>
                <tr>
@@ -75,7 +75,7 @@
                      {{ $time }}
                      {{ $newDateTimeType }}
                      بواسطة 
-                     {{ $data['updated_by_admin'] }}
+                     {{ $data->updatetor->name }}
                      @else
                      لايوجد تحديث
                      @endif

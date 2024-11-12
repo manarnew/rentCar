@@ -25,7 +25,7 @@
             <input type="hidden" id="ajax_do_delete_permission" value="{{ route('admin.permission_sub_menues.ajax_do_delete_permission') }}">
             
             
-            <a href="{{ route('admin.permission_sub_menues.create') }}" class="btn btn-sm btn-success" >اضافة جديد</a>
+            <a href="{{ route('admin.permission_sub_menues.create') }}" class="btn btn-sm btn-success" > <i class="fas fa-plus"></i> اضافة جديد</a>
          </div>
          <!-- /.card-header -->
          <div class="card-body">
@@ -62,12 +62,19 @@
                      <th>حالة التفعيل</th>
                      <th> تاريخ الاضافة</th>
                      <th> تاريخ التحديث</th>
-                     <th></th>
+                     <th>إجراء</th>
                   </thead>
                   <tbody>
                      @foreach ($data as $info )
                      <tr>
-                        <td style="background-color: aquamarine;">{{ $info->id}}</td>
+                        <td>
+                             @php
+                             $sys =  App\Models\Panel_settings::where('id',1)->first();
+                             @endphp
+                                <span style="background-color: {{ $sys['theme_color'] }}; color:#fff;" class="badge text-bg-primary rounded-pill">
+                                {{ $info->id}}
+                                </span>
+                            </td>
                         <td>{{ $info->name }}</td>
                         <td>{{ $info->Permission_main_menues_name }}</td>
                         <td>@if($info->active==1) مفعل @else معطل @endif</td>
@@ -119,7 +126,7 @@
                                  <th>  اسم الصلاحية</th>
                                  <th> تاريخ الاضافة</th>
                                  <th> تاريخ التحديث</th>
-                                 <th></th>
+                                 <th>إجراء</th>
                               </thead>
                               <tbody>
                                  @foreach ($info->permission_sub_menues_actions as $action )
@@ -218,7 +225,7 @@
    <!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade  "   id="edit_permission_modal">
+<div class="modal fade" id="edit_permission_modal">
    <div class="modal-dialog modal-xl"  >
       <div class="modal-content bg-info">
          <div class="modal-header">

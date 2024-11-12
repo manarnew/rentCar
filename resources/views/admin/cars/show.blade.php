@@ -85,6 +85,18 @@
                             {{ $data['contract_number'] }}
                         </td>
                     </tr>
+                      <tr>
+                        <td>   عدد الكيلومترات منذ اخر صيانة    </td> 
+                        <td colspan="2">
+                            {{ $data['km_for_mantince'] * 1}}
+                        </td>
+                    </tr>
+                      <tr>
+                        <td>    تاريخ انتهاء الترخيص   </td>
+                        <td colspan="2">
+                            {{ $data['driver_license_end_date'] }}
+                        </td>
+                    </tr>
                     <tr>
                         <td>      التامين </td>
                         <td colspan="2">
@@ -94,7 +106,7 @@
                     <tr>
                         <td>    حالة تامين السيارة </td>
                         <td colspan="2">
-                            @if ($data['full_insurance'==1])
+                            @if ($data['full_insurance']==1)
                                 نعم
                             @else
                               لا
@@ -104,7 +116,7 @@
                     <tr>
                         <td>  هل يوجد طرف ثالث  </td>
                         <td colspan="2">
-                            @if ($data['third_party'==1])
+                            @if ($data['third_party']==1)
                             نعم
                         @else
                           لا
@@ -114,7 +126,7 @@
                     <tr>
                         <td>هل تغطية شامله     </td>
                         <td colspan="2">
-                                @if ($data['full_cover'==1])
+                                @if ($data['full_cover']==1)
                                 نعم
                             @else
                               لا
@@ -124,7 +136,7 @@
                     <tr>
                         <td>  الامارات العربية المتحدة    </td>
                         <td colspan="2">
-                            @if ($data['UAE'==1])
+                            @if ($data['UAE']==1)
                             نعم
                         @else
                           لا
@@ -134,7 +146,7 @@
                     <tr>
                         <td>   عمان   </td>
                         <td colspan="2">
-                            @if ($data['oman'==1])
+                            @if ($data['oman']==1)
                             نعم
                         @else
                           لا

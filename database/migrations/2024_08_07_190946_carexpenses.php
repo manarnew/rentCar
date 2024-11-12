@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('car_id');
             $table->integer('type_id');
             $table->string('supplier');
-            $table->string('image')->nullable();
             $table->decimal('price');
             $table->decimal('tax')->nullable();
             $table->decimal('total_price_tax');

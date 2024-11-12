@@ -19,7 +19,7 @@
             <h3 class="card-title card_title_center">بيانات  موديل السيارات</h3>
             <input type="hidden" id="token_search" value="{{csrf_token() }}">
             @if(check_permission_sub_menue_actions(10)==true) 
-            <a href="{{ route('CarModals.create') }}" class="btn btn-sm btn-success" >اضافة جديد</a>
+            <a href="{{ route('CarModals.create') }}" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> اضافة جديد</a>
             @endif
          </div>
          <!-- /.card-header -->

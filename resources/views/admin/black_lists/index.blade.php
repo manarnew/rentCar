@@ -16,7 +16,7 @@
    <div class="col-12">
       <div class="card">
          <div class="card-header">
-            <h3 class="card-title card_title_center">بيانات  فئات السيارات</h3>
+            <h3 class="card-title card_title_center">بيانات القائمة السوداء</h3>
             <input type="hidden" id="token_search" value="{{csrf_token() }}">
          </div>
          <!-- /.card-header -->

@@ -38,9 +38,10 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <input type="hidden" value="{{old('contract_type_price')}}" name="contract_type_price" id="contract_type_price">
+                                                <input type="hidden" value="{{old('contract_type_price')}}" name="contract_type_price" id="contract_type_price">
+
                     </div>
-                      
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>العدد/اليوم</label>
@@ -53,9 +54,9 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label> نوع الدفع</label>
+                            <label> طريقة الدفع</label>
                             <select id="payment_type" name="payment_type" class="form-control ">
-                                <option value=""> اختر نوع الدفع </option>
+                                <option value=""> حدد طريقة الدفع </option>
                                 <option @if (old('payment_type') == 'تحويل بنكي') selected="selected" @endif value="تحويل بنكي">
                                     تحويل بنكي </option>
                                 <option @if (old('payment_type') == 'كاش') selected="selected" @endif value="كاش"> كاش
@@ -78,7 +79,7 @@
                             <label> اختر اسم العميل</label>
                             <select id="customer_id" name="customer_id" class="form-control ">
                                 <option value=""> اختر اسم العميل </option>
-                                @foreach ($customer_id as $item)
+                                  @foreach ($customer_id as $item)
                                     <option @if ($item->customer_status == 0) disabled="disabled" @endif  @if (old('customer_id') == $item->id) selected="selected" @endif
                                         value="{{ $item->id }}"> {{ $item->name }} @if ($item->customer_status == 0) ( <span style="color: red">{{"محظور"}}</span>) @endif</option>
                                 @endforeach
@@ -140,10 +141,11 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                       
                         <div class="form-group">
                             <label> وقت المغادرة </label>
-                            <input type="time" name="exist_time" id="exist_time" class="form-control"
-                                value="{{ old('exist_time', date('H:i:s')) }}">
+                            <input type="time" id="timeInput" name="exist_time"  class="form-control"
+                                value="{{ old('exist_time') }}">
                             @error('exist_time')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -152,7 +154,9 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label> عدد الكيلومترات وقت المغادرة </label>
-                            <input type="text" name="exist_km" readonly id="exist_km" class="form-control"
+                            <input type="text" name="exist_km"  id="exist_km" class="form-control"
+                                value="{{ old('exist_km',$car_id->km_number * 1)}}">
+                                 <input type="hidden" name="exist_km_old"  id="exist_km_old" class="form-control"
                                 value="{{ $car_id->km_number * 1 }}">
                             @error('exist_km')
                                 <span class="text-danger">{{ $message }}</span>
@@ -320,7 +324,13 @@
     <script>
       
    $(document).on('input', '#return_km', function(e) {
- var exist_km = $("#exist_km").val();
+culuc_total_km()
+});
+   $(document).on('input', '#exist_km', function(e) {
+culuc_total_km()
+});
+function culuc_total_km(){
+     var exist_km = $("#exist_km").val();
   if(exist_km ==""){
     exist_km = 0;
   }
@@ -336,7 +346,7 @@
  }
  culc();
  recCulcForexcessKm()
-});
+}
 $(document).on('input', '#due_km', function(e) {
     recCulcForexcessKm()
     culc();
@@ -498,5 +508,16 @@ culc();
                 return false;
             }
         });
+        
+        
+          function setCurrentTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('timeInput').value = `${hours}:${minutes}`;
+    }
+
+    // Call the function to set the time when the page loads
+    window.onload = setCurrentTime;
     </script>
 @endsection
